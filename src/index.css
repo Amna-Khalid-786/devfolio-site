@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --color-brand-blue: #0070f3;
+  --color-brand-cyan: #00dfd8;
+  --color-dark-bg: #050505;
+  --color-dark-surface: #0a0a0a;
+  --color-dark-border: rgba(255, 255, 255, 0.05);
+
+  --animate-gradient: gradient 5s ease infinite;
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-white font-sans antialiased selection:bg-brand-blue/30;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.glass {
+  @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08];
+}
+
+.glass-dark {
+  @apply bg-black/40 backdrop-blur-2xl border border-white/5;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-blue bg-[length:200%_auto] animate-gradient;
+}
+
+.bg-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.mask-radial {
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
