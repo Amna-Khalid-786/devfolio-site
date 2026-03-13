@@ -61,3 +61,17 @@
 .mask-radial {
   mask-image: radial-gradient(circle at center, black, transparent 80%);
 }
+
+/* Slide transition overlay — a brief flash between slides */
+.slide-transition-overlay {
+  background: radial-gradient(ellipse at center, rgba(0, 112, 243, 0.08) 0%, rgba(5, 5, 5, 0.6) 70%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+/* Utility for 3D card flip */
+.rotate-x-12 {
+  transform: rotateX(12deg);
+}
+
+.rotate-x-\[180deg\] {
+  transform: rotateX(180deg);
+}
