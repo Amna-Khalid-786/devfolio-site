@@ -131,8 +131,9 @@ export const AIIntegration = () => {
     const aiServices = [
         {
             title: "Clinical Intelligence",
+            desc: "Advanced clinical decision support leveraging ML models to provide evidence-based insights.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
                     <path d="M12 8v4l3 3" />
                 </svg>
@@ -140,40 +141,45 @@ export const AIIntegration = () => {
         },
         {
             title: "Automatic Workflows",
+            desc: "Streamline administrative and clinical processes to reduce manual overhead and improve efficiency.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                 </svg>
             )
         },
         {
             title: "AI Assistants",
+            desc: "Virtual health assistants providing preliminary triage and personalized patient engagement continuously.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                 </svg>
             )
         },
         {
             title: "System Checker",
+            desc: "Automated real-time monitoring of medical systems for predictable anomalies and compliance.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
             )
         },
         {
             title: "Analytics",
+            desc: "Predictive modeling and comprehensive data analysis for actionable healthcare insights.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <path d="M18 20V10M12 20V4M6 20v-6" />
                 </svg>
             )
         },
         {
             title: "Auto Scheduler",
+            desc: "Intelligent resource allocation and patient scheduling to optimize clinic and hospital workflows.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                     <line x1="16" y1="2" x2="16" y2="6" />
                     <line x1="8" y1="2" x2="8" y2="6" />
@@ -182,9 +188,10 @@ export const AIIntegration = () => {
             )
         },
         {
-            title: "Predictive & Preventive Analysis",
+            title: "Predictive & Preventive",
+            desc: "Forecast potential health risks and implement proactive care measures for better patient outcomes.",
             icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
             )
@@ -192,40 +199,71 @@ export const AIIntegration = () => {
     ];
 
     return (
-        <Container>
-            <SubHeading>AI INTEGRATION</SubHeading>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {aiServices.map((item, i) => (
+        <Container className="w-full mx-auto relative">
+            {/* Awesome glowing background effect */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
+                <motion.div
+                    animate={{ rotate: 360, scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute w-[800px] h-[800px] bg-brand-cyan/10 rounded-full blur-[120px]"
+                />
+                <motion.div
+                    animate={{ rotate: -360, scale: [1, 1.5, 1], opacity: [0.2, 0.4, 0.2] }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                    className="absolute w-[600px] h-[600px] bg-brand-blue/10 rounded-full blur-[100px] ml-40 mt-20"
+                />
+            </div>
+            
+            <div className="relative z-10 w-full">
+                <SubHeading>AI INTEGRATION</SubHeading>
+                <div className="flex flex-wrap justify-center items-center gap-4 w-full mt-4">
+                    {aiServices.map((item, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.05, duration: 0.6 }}
-                        className="relative group p-[1px] rounded-2xl overflow-hidden bg-white/5 border border-white/5 hover:border-brand-cyan/30 transition-all duration-500 shadow-[0_0_20px_rgba(0,223,216,0.05)] hover:shadow-[0_0_30px_rgba(0,223,216,0.15)]"
+                        className="group relative w-[calc(25%-1rem)] min-w-[200px] max-w-[260px] h-[220px] perspective-[1000px] cursor-pointer"
                     >
-                        {/* Persistent Rotating Border */}
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_40%,#00dfd8_50%,transparent_60%)] opacity-30 group-hover:opacity-100 transition-opacity duration-700"
-                        />
-
-                        <div className="relative h-full w-full bg-[#0a0a0a] rounded-[calc(1rem-1px)] p-8 flex flex-col items-center justify-center text-center z-10 transition-all duration-500 group-hover:bg-brand-cyan/[0.05]">
-                            {/* Professional Icon Container */}
-                            <div className="mb-6 w-14 h-14 flex items-center justify-center rounded-2xl bg-white/[0.03] border border-white/5 text-brand-cyan group-hover:text-white group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/20 transition-all duration-700 shadow-xl group-hover:rotate-6 group-hover:scale-110">
-                                {item.icon}
+                        <div className="relative w-full h-full transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[0_0_20px_rgba(0,223,216,0.05)] hover:shadow-[0_0_30px_rgba(0,223,216,0.15)] rounded-2xl">
+                            
+                            {/* FRONT OF CARD */}
+                            <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] rounded-[1rem] bg-white/5 border border-white/5 overflow-hidden">
+                                {/* Persistent Rotating Border */}
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                                    className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_40%,#00dfd8_50%,transparent_60%)] opacity-30 pointer-events-none"
+                                />
+                                <div className="absolute inset-[1px] bg-[#0a0a0a] rounded-[calc(1rem-1px)] z-0" />
+                                
+                                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 text-center">
+                                    <div className="mb-4 w-12 h-12 flex items-center justify-center rounded-2xl bg-white/[0.03] border border-white/5 text-brand-cyan group-hover:text-white group-hover:bg-brand-cyan/20 transition-all duration-500 shadow-xl group-hover:scale-110">
+                                        {/* Scale the icon slightly since we decreased container size */}
+                                        <div className="scale-75">
+                                            {item.icon}
+                                        </div>
+                                    </div>
+                                    <h3 className="text-xs font-bold tracking-widest text-white/70 group-hover:text-white transition-colors duration-500 uppercase px-2">
+                                        {item.title}
+                                    </h3>
+                                    <div className="mt-4 w-4 h-px bg-brand-cyan/40" />
+                                </div>
+                            </div>
+                            
+                            {/* BACK OF CARD */}
+                            <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[1rem] bg-gradient-to-br from-[#0a0a0a] to-[#041a1a] border border-brand-cyan/30 flex flex-col items-center justify-center p-6 text-center shadow-[0_0_30px_rgba(0,223,216,0.15)]">
+                                <h4 className="text-brand-cyan font-bold uppercase tracking-widest text-[10px] mb-3">{item.title}</h4>
+                                <p className="text-white/60 text-xs leading-relaxed font-light">
+                                    {item.desc}
+                                </p>
                             </div>
 
-                            <h3 className="text-sm font-bold tracking-tight text-white/50 group-hover:text-white transition-colors duration-500 px-2 uppercase tracking-widest">
-                                {item.title}
-                            </h3>
-
-                            {/* Minimal Decor */}
-                            <div className="mt-4 w-4 group-hover:w-12 h-px bg-brand-cyan/20 group-hover:bg-brand-cyan/60 transition-all duration-700" />
                         </div>
                     </motion.div>
                 ))}
+                </div>
             </div>
         </Container>
     );

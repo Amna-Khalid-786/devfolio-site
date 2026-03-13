@@ -38,9 +38,9 @@ const slideTransitions = [
   },
   // 4: AI Integration
   {
-    initial: { opacity: 0, filter: "brightness(3) contrast(1.5)" },
-    animate: { opacity: 1, filter: "brightness(1) contrast(1)", transition: { duration: 0.8 } },
-    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.4 } },
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
   },
   // 5: Medicine & Management
   {
@@ -137,11 +137,19 @@ const BackgroundMapping = [
   Backgrounds.GridPulseBG,
 ];
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showFlash, setShowFlash] = useState(false);
+
+  const getCategoryRange = (index: number) => {
+    if (index < 3) return [0, 2];     // Intro
+    if (index < 7) return [3, 6];     // Services
+    return [7, 11];                   // Products
+  };
 
   const navigateTo = useCallback(
     (target: number) => {
@@ -161,11 +169,17 @@ export default function App() {
   );
 
   const goToNext = useCallback(() => {
-    navigateTo(currentSlide + 1);
+    const [, max] = getCategoryRange(currentSlide);
+    if (currentSlide < max) {
+      navigateTo(currentSlide + 1);
+    }
   }, [currentSlide, navigateTo]);
 
   const goToPrev = useCallback(() => {
-    navigateTo(currentSlide - 1);
+    const [min, ] = getCategoryRange(currentSlide);
+    if (currentSlide > min) {
+      navigateTo(currentSlide - 1);
+    }
   }, [currentSlide, navigateTo]);
 
   // Keyboard Navigation
@@ -191,53 +205,6 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToNext, goToPrev]);
 
-  // Wheel/Touch Navigation (throttled)
-  useEffect(() => {
-    let isThrottled = false;
-    let accumulatedDelta = 0;
-
-    const handleWheel = (e: WheelEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest(".overflow-y-auto")) {
-        const scrollable = target.closest(".overflow-y-auto") as HTMLElement;
-        const isAtTop = scrollable.scrollTop === 0;
-        const isAtBottom =
-          Math.abs(
-            scrollable.scrollHeight - scrollable.scrollTop - scrollable.clientHeight
-          ) < 1;
-
-        if ((e.deltaY < 0 && !isAtTop) || (e.deltaY > 0 && !isAtBottom)) {
-          return;
-        }
-      }
-
-      e.preventDefault();
-
-      if (isThrottled) return;
-
-      accumulatedDelta += e.deltaY || e.deltaX;
-
-      const threshold = 50;
-      if (Math.abs(accumulatedDelta) > threshold) {
-        if (accumulatedDelta > 0) {
-          goToNext();
-        } else {
-          goToPrev();
-        }
-
-        isThrottled = true;
-        accumulatedDelta = 0;
-
-        setTimeout(() => {
-          isThrottled = false;
-        }, 1400);
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [goToNext, goToPrev]);
-
   // Progress Bar Width
   const progressPercent = (currentSlide / (TOTAL_SLIDES - 1)) * 100;
 
@@ -246,6 +213,9 @@ export default function App() {
 
   // Get current slide component
   const CurrentSlideComponent = slideComponents[currentSlide];
+
+  const [min, max] = getCategoryRange(currentSlide);
+  const categorySlides = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
   return (
     <div className="bg-dark-bg selection:bg-brand-blue/30 selection:text-white relative h-screen w-screen overflow-hidden perspective-1000">
@@ -301,19 +271,50 @@ export default function App() {
         </AnimatePresence>
       </div>
 
+      {/* On-screen Navigation Arrows */}
+      <AnimatePresence>
+        {currentSlide > min && (
+          <motion.button
+            key="btn-prev"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            onClick={goToPrev}
+            className="fixed left-8 top-1/2 -translate-y-1/2 z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all backdrop-blur-sm cursor-pointer"
+          >
+            <ChevronLeft size={32} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {currentSlide < max && (
+          <motion.button
+            key="btn-next"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            onClick={goToNext}
+            className="fixed right-8 top-1/2 -translate-y-1/2 z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all backdrop-blur-sm cursor-pointer"
+          >
+            <ChevronRight size={32} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       {/* Slide Indicators Navigation */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-3">
-        {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
+        {categorySlides.map((index) => (
           <motion.button
-            key={i}
-            onClick={() => navigateTo(i)}
+            key={index}
+            onClick={() => navigateTo(index)}
             whileHover={{ scale: 1.3 }}
             whileTap={{ scale: 0.9 }}
-            className={`h-2 rounded-full transition-all duration-500 ${i === currentSlide
+            className={`h-2 rounded-full transition-all duration-500 ${index === currentSlide
                 ? "bg-brand-blue w-8"
                 : "bg-white/20 hover:bg-white/50 w-2"
               }`}
-            aria-label={`Go to slide ${i + 1}`}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
