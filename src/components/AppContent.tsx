@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 
-const Container = ({ children, className = "", ...props }: { children: React.ReactNode, className?: string, [key: string]: any }) => {
+const Container = ({ children, className = "", isActive, ...props }: { children: React.ReactNode, className?: string, isActive?: boolean, [key: string]: any }) => {
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {
         stiffness: 100,
