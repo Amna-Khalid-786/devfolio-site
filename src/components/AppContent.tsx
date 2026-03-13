@@ -1,11 +1,24 @@
 import React from "react";
-import { motion } from "motion/react";
+import { motion, useScroll, useSpring } from "motion/react";
 
-const Container = ({ children, className = "", ...props }: { children: React.ReactNode, className?: string, [key: string]: any }) => (
-    <div className={`max-w-7xl mx-auto px-6 py-20 flex flex-col justify-center min-h-screen ${className}`} {...props}>
-        {children}
-    </div>
-);
+const Container = ({ children, className = "", ...props }: { children: React.ReactNode, className?: string, [key: string]: any }) => {
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    return (
+        <div className={`max-w-7xl mx-auto px-6 py-20 flex flex-col justify-center min-h-screen ${className}`} {...props}>
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1 bg-brand-cyan origin-left z-50"
+                style={{ scaleX }}
+            />
+            {children}
+        </div>
+    );
+};
 
 const Heading = ({ children, gradient = false }: { children: React.ReactNode, gradient?: boolean }) => (
     <motion.h2
@@ -76,16 +89,26 @@ export const Expertise = () => (
             ].map((item, i) => (
                 <motion.div
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="glass-dark p-8 rounded-3xl border border-white/5 hover:border-brand-blue/30 transition-all group"
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                    className="relative group p-[1px] rounded-3xl overflow-hidden bg-white/5 shadow-[0_0_20px_rgba(0,112,243,0.1)]"
                 >
-                    <div className="w-12 h-12 bg-white/5 rounded-xl mb-6 flex items-center justify-center group-hover:bg-brand-blue/20 transition-all">
-                        <span className="text-brand-cyan font-bold leading-none">{i + 1}</span>
+                    {/* Rotating Border - Always Visible */}
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                        className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+
+                    <div className="relative h-full w-full bg-[#080808] rounded-[calc(1.5rem-1px)] p-8 flex flex-col z-10 transition-colors group-hover:bg-black/80">
+                        <div className="w-12 h-12 bg-white/5 rounded-xl mb-6 flex items-center justify-center group-hover:bg-brand-blue/20 transition-all border border-white/10 group-hover:border-brand-blue/30">
+                            <span className="text-brand-cyan font-bold leading-none">{i + 1}</span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-4 group-hover:text-brand-cyan transition-colors">{item.title}</h3>
+                        <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/60 transition-colors">{item.desc}</p>
                     </div>
-                    <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-                    <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
                 </motion.div>
             ))}
         </div>
@@ -104,51 +127,232 @@ export const ServicesIntro = () => (
 );
 
 // 4. AI Integration
-export const AIIntegration = () => (
-    <Container>
-        <SubHeading>AI INTEGRATION</SubHeading>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-                "Clinical Intelligence", "Automatic Clinical Workflows", "AI Assistants", "System Checker",
-                "Analytics", "Auto Appointment Schedular", "Predictive & Preventive Analysis"
-            ].map((item, i) => (
-                <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="glass-dark p-6 rounded-2xl border border-white/5 flex flex-col items-center text-center justify-center aspect-video hover:bg-white/5 transition-all"
-                >
-                    <span className="text-sm font-bold tracking-tight text-white/70">{item}</span>
-                </motion.div>
-            ))}
-        </div>
-    </Container>
-);
+export const AIIntegration = () => {
+    const aiServices = [
+        {
+            title: "Clinical Intelligence",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                    <path d="M12 8v4l3 3" />
+                </svg>
+            )
+        },
+        {
+            title: "Automatic Workflows",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+            )
+        },
+        {
+            title: "AI Assistants",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+            )
+        },
+        {
+            title: "System Checker",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+            )
+        },
+        {
+            title: "Analytics",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M18 20V10M12 20V4M6 20v-6" />
+                </svg>
+            )
+        },
+        {
+            title: "Auto Scheduler",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+            )
+        },
+        {
+            title: "Predictive & Preventive Analysis",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+            )
+        }
+    ];
+
+    return (
+        <Container>
+            <SubHeading>AI INTEGRATION</SubHeading>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {aiServices.map((item, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.05, duration: 0.6 }}
+                        className="relative group p-[1px] rounded-2xl overflow-hidden bg-white/5 border border-white/5 hover:border-brand-cyan/30 transition-all duration-500 shadow-[0_0_20px_rgba(0,223,216,0.05)] hover:shadow-[0_0_30px_rgba(0,223,216,0.15)]"
+                    >
+                        {/* Persistent Rotating Border */}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_40%,#00dfd8_50%,transparent_60%)] opacity-30 group-hover:opacity-100 transition-opacity duration-700"
+                        />
+
+                        <div className="relative h-full w-full bg-[#0a0a0a] rounded-[calc(1rem-1px)] p-8 flex flex-col items-center justify-center text-center z-10 transition-all duration-500 group-hover:bg-brand-cyan/[0.05]">
+                            {/* Professional Icon Container */}
+                            <div className="mb-6 w-14 h-14 flex items-center justify-center rounded-2xl bg-white/[0.03] border border-white/5 text-brand-cyan group-hover:text-white group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/20 transition-all duration-700 shadow-xl group-hover:rotate-6 group-hover:scale-110">
+                                {item.icon}
+                            </div>
+
+                            <h3 className="text-sm font-bold tracking-tight text-white/50 group-hover:text-white transition-colors duration-500 px-2 uppercase tracking-widest">
+                                {item.title}
+                            </h3>
+
+                            {/* Minimal Decor */}
+                            <div className="mt-4 w-4 group-hover:w-12 h-px bg-brand-cyan/20 group-hover:bg-brand-cyan/60 transition-all duration-700" />
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        </Container>
+    );
+};
 
 // 5. Medicine & Management
-export const MedicineManagement = () => (
-    <Container>
-        <SubHeading>MEDICINE & MANAGEMENT</SubHeading>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {[
-                "Medical Research & Recommendation", "Remote Patient Monitoring Dashboard", "Medical Imaging Analysis & Management",
-                "Drug Discovery, Development & Management", "AI-enabled Medical Billing Software", "Appointment Management Software"
-            ].map((item, i) => (
-                <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="glass-dark p-6 rounded-2xl border border-white/5 flex flex-col items-start gap-4 hover:border-brand-cyan/30 transition-all"
-                >
-                    <div className="w-2 h-2 rounded-full bg-brand-cyan shadow-[0_0_10px_rgba(0,223,216,1)]" />
-                    <span className="text-sm font-bold text-white/80">{item}</span>
-                </motion.div>
-            ))}
-        </div>
-    </Container>
-);
+export const MedicineManagement = () => {
+    const managementServices = [
+        {
+            title: "Medical Research & Recommendation",
+            desc: "Advanced AI algorithms for clinical research support and data synthesis.",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+            )
+        },
+        {
+            title: "Remote Patient Monitoring Dashboard",
+            desc: "Real-time vitals tracking and alerting system for proactive patient care.",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+            )
+        },
+        {
+            title: "Medical Imaging Analysis & Management",
+            desc: "AI-powered diagnostic imaging interpretation and workflow optimization.",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M15 3h6v6" />
+                    <path d="M9 21H3v-6" />
+                    <path d="M21 3l-7 7" />
+                    <path d="M3 21l7-7" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+            )
+        },
+        {
+            title: "Drug Discovery & Development",
+            desc: "Accelerating pharmaceutical innovation with machine learning models.",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M4.5 12.5l10-10a3.53 3.53 0 0 1 5 5l-10 10a3.53 3.53 0 0 1-5-5z" />
+                    <path d="M9 6.5l5 5" />
+                </svg>
+            )
+        },
+        {
+            title: "AI-enabled Medical Billing",
+            desc: "Automated coding and claims processing to reduce operational overhead.",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" />
+                    <path d="M4 6v12c0 1.1.9 2 2 2h14v-4" />
+                    <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
+                </svg>
+            )
+        },
+        {
+            title: "Appointment Management Software",
+            desc: "Intelligent scheduling and patient flow management for modern clinics.",
+            icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+            )
+        }
+    ];
+
+    return (
+        <Container>
+            <SubHeading>MEDICINE & MANAGEMENT</SubHeading>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {managementServices.map((item, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                        className="group relative p-[1px] rounded-[2rem] overflow-hidden bg-white/5"
+                    >
+                        {/* Persistent Rotating Border */}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                        />
+
+                        <div className="relative h-full w-full bg-[#0a0a0a] rounded-[calc(2rem-1px)] p-8 flex flex-col z-10 transition-all duration-500 group-hover:bg-black/80">
+                            {/* Background Index Number */}
+                            <div className="absolute top-4 right-8 text-8xl font-display font-bold text-white/[0.02] group-hover:text-brand-blue/[0.05] transition-colors duration-500 pointer-events-none select-none">
+                                0{i + 1}
+                            </div>
+
+                            {/* Icon */}
+                            <div className="mb-6 w-12 h-12 flex items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue border border-brand-blue/20 group-hover:bg-brand-blue group-hover:text-white group-hover:border-brand-blue/50 transition-all duration-500 shadow-lg group-hover:shadow-brand-blue/20">
+                                {item.icon}
+                            </div>
+
+                            {/* Content */}
+                            <div className="relative z-10">
+                                <h3 className="text-xl font-bold mb-4 group-hover:text-brand-cyan transition-colors duration-300">
+                                    {item.title}
+                                </h3>
+                                <p className="text-white/40 text-sm leading-relaxed mb-0 h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-4 transition-all duration-500">
+                                    {item.desc}
+                                </p>
+                            </div>
+
+                            {/* Bottom Decor */}
+                            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-cyan/40 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        </Container>
+    );
+};
 
 // 6. Quality Assurance
 export const QualityAssurance = () => (
@@ -179,17 +383,47 @@ export const CareManagement = () => (
         <SubHeading>4. PRODUCTS</SubHeading>
         <Heading gradient>CARE MANAGEMENT</Heading>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} className="glass-dark p-10 rounded-[2.5rem] text-left border border-white/10">
-                <h3 className="text-3xl font-bold mb-4 text-brand-blue">EHR</h3>
-                <p className="text-white/50 leading-relaxed">
-                    EHR solution simplifies patient data management, offering quick access to medical records, diagnosis, treatments, and test results. It enhances data sharing and improves coordination, streamlining patient care and reducing errors.
-                </p>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative group p-[1px] rounded-[2.5rem] overflow-hidden bg-white/5"
+            >
+                {/* Rotating Border - Always Visible */}
+                <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                />
+
+                <div className="relative card-content text-left bg-[#080808] h-full w-full rounded-[calc(2.5rem-1px)] z-10 p-10 group-hover:bg-black/80 transition-colors">
+                    <h3 className="text-3xl font-bold mb-4 text-brand-blue">EHR</h3>
+                    <p className="text-white/50 leading-relaxed">
+                        EHR solution simplifies patient data management, offering quick access to medical records, diagnosis, treatments, and test results. It enhances data sharing and improves coordination, streamlining patient care and reducing errors.
+                    </p>
+                    <div className="mt-8 h-1 w-24 bg-brand-blue/30 rounded-full" />
+                </div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} className="glass-dark p-10 rounded-[2.5rem] text-left border border-white/10">
-                <h3 className="text-3xl font-bold mb-4 text-brand-cyan">AI AUTOMATION</h3>
-                <p className="text-white/50 leading-relaxed">
-                    AI Automation tool leverages advanced algorithms to streamline repetitive tasks, improve efficiency, and reduce human error. By integrating AI into workflows enhances the decision-making, boosts productivity and allow teams to focus on more strategic initiatives.
-                </p>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative group p-[1px] rounded-[2.5rem] overflow-hidden bg-white/5"
+            >
+                {/* Rotating Border - Always Visible */}
+                <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#00dfd8_40%,#0070f3_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                />
+
+                <div className="relative card-content text-left bg-[#080808] h-full w-full rounded-[calc(2.5rem-1px)] z-10 p-10 group-hover:bg-black/80 transition-colors">
+                    <h3 className="text-3xl font-bold mb-4 text-brand-cyan">AI AUTOMATION</h3>
+                    <p className="text-white/50 leading-relaxed">
+                        AI Automation tool leverages advanced algorithms to streamline repetitive tasks, improve efficiency, and reduce human error. By integrating AI into workflows enhances the decision-making, boosts productivity and allow teams to focus on more strategic initiatives.
+                    </p>
+                    <div className="mt-8 h-1 w-24 bg-brand-cyan/30 rounded-full" />
+                </div>
             </motion.div>
         </div>
     </Container>
@@ -234,19 +468,27 @@ export const RemoteCare = () => (
 export const PreventiveCare = () => (
     <Container>
         <SubHeading>POSTOP / PREVENTIVE CARE</SubHeading>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="p-8 glass-dark rounded-[2rem] border border-white/5">
-                <h3 className="text-2xl font-bold mb-4">WELLBUDDY POSTOP CARE</h3>
-                <p className="text-white/40 text-sm leading-relaxed">
-                    It is a comprehensive solution designed to support patients during their recovery after surgery. It provides remote monitoring of vital signs, medication tracking and personalized care instructions ensuring smooth recovery process and reducing hospital readmissions.
-                </p>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="p-8 glass-dark rounded-[2rem] border border-white/5">
-                <h3 className="text-2xl font-bold mb-4">PREVENTIVE CARE</h3>
-                <p className="text-white/40 text-sm leading-relaxed">
-                    Our Preventive Care solution focuses on proactive health management by monitoring key health indicators and providing early alerts for potential risks. It helps individuals maintain optimal health and promoces long-term well-being.
-                </p>
-            </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {[
+                { title: "WELLBUDDY POSTOP CARE", color: "brand-blue", desc: "It is a comprehensive solution designed to support patients during their recovery after surgery. It provides remote monitoring of vital signs, medication tracking and personalized care instructions ensuring smooth recovery process and reducing hospital readmissions." },
+                { title: "PREVENTIVE CARE", color: "brand-cyan", desc: "Our Preventive Care solution focuses on proactive health management by monitoring key health indicators and providing early alerts for potential risks. It helps individuals maintain optimal health and promoces long-term well-being." }
+            ].map((item, i) => (
+                <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ scale: 1.02 }}
+                    className="group relative"
+                >
+                    <div className={`absolute -inset-1 bg-gradient-to-r ${item.color === 'brand-blue' ? 'from-brand-blue to-purple-600' : 'from-brand-cyan to-blue-500'} rounded-[2rem] blur opacity-20 group-hover:opacity-50 transition duration-1000 group-hover:duration-200`} />
+                    <div className="relative p-10 glass-dark rounded-[2rem] border border-white/10 h-full">
+                        <h3 className={`text-2xl font-bold mb-6 ${item.color === 'brand-blue' ? 'text-brand-blue' : 'text-brand-cyan'}`}>{item.title}</h3>
+                        <p className="text-white/50 leading-relaxed font-light">
+                            {item.desc}
+                        </p>
+                    </div>
+                </motion.div>
+            ))}
         </div>
     </Container>
 );
@@ -256,17 +498,49 @@ export const MedicalAssistance = () => (
     <Container>
         <SubHeading>MEDICAL ASSISTANCE</SubHeading>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} className="p-10 bg-brand-blue/5 border border-brand-blue/20 rounded-[3rem]">
-                <h3 className="text-2xl font-bold mb-6 text-brand-blue">CLINICAL DECISION SUPPORT</h3>
-                <p className="text-white/60 leading-relaxed font-light">
-                    An intelligent support system designed to augment clinical expertise. By analyzing complex patient data in real-time, we deliver evidence-based recommendations that enhance diagnostic precision and optimize treatment planning.
-                </p>
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="relative group p-[1px] rounded-[3rem] overflow-hidden bg-white/5"
+            >
+                {/* Persistent Rotating Border */}
+                <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                />
+
+                <div className="relative p-10 bg-[#0a0a0a] rounded-[calc(3rem-1px)] z-10 h-full transition-all duration-500 group-hover:bg-black/80">
+                    <h3 className="text-2xl font-bold mb-6 text-brand-blue flex items-center gap-3">
+                        <div className="w-1.5 h-6 bg-brand-blue rounded-full" />
+                        CLINICAL DECISION SUPPORT
+                    </h3>
+                    <p className="text-white/60 leading-relaxed font-light group-hover:text-white transition-colors">
+                        An intelligent support system designed to augment clinical expertise. By analyzing complex patient data in real-time, we deliver evidence-based recommendations that enhance diagnostic precision and optimize treatment planning.
+                    </p>
+                </div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="p-10 bg-brand-cyan/5 border border-brand-cyan/20 rounded-[3rem]">
-                <h3 className="text-2xl font-bold mb-6 text-brand-cyan">PRECISION MEDICINE</h3>
-                <p className="text-white/60 leading-relaxed font-light">
-                    Our solution tailors treatments based on individual genetic profiles, lifestyle, and environment. By personalizing treatment effectiveness, minimizes side effects, and promotes better outcomes for patients.
-                </p>
+            <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="relative group p-[1px] rounded-[3rem] overflow-hidden bg-white/5"
+            >
+                {/* Persistent Rotating Border */}
+                <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#00dfd8_40%,#0070f3_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                />
+
+                <div className="relative p-10 bg-[#0a0a0a] rounded-[calc(3rem-1px)] z-10 h-full transition-all duration-500 group-hover:bg-black/80">
+                    <h3 className="text-2xl font-bold mb-6 text-brand-cyan flex items-center gap-3">
+                        <div className="w-1.5 h-6 bg-brand-cyan rounded-full" />
+                        PRECISION MEDICINE
+                    </h3>
+                    <p className="text-white/60 leading-relaxed font-light group-hover:text-white transition-colors">
+                        Our solution tailors treatments based on individual genetic profiles, lifestyle, and environment. By personalizing treatment effectiveness, minimizes side effects, and promotes better outcomes for patients.
+                    </p>
+                </div>
             </motion.div>
         </div>
     </Container>

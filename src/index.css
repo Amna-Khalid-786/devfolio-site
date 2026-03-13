@@ -4,7 +4,7 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
-  
+
   --color-brand-blue: #0070f3;
   --color-brand-cyan: #00dfd8;
   --color-dark-bg: #050505;
@@ -12,11 +12,30 @@
   --color-dark-border: rgba(255, 255, 255, 0.05);
 
   --animate-gradient: gradient 5s ease infinite;
+  --animate-spin-slow: spin 3s linear infinite;
 
   @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 
@@ -25,8 +44,13 @@
     @apply bg-dark-bg text-white font-sans antialiased selection:bg-brand-blue/30;
     overflow-x: hidden;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display tracking-tight;
   }
 }
@@ -47,14 +71,32 @@
   @apply bg-black/40 backdrop-blur-2xl border border-white/5;
 }
 
+.card-border-animated {
+  @apply relative p-[1px] overflow-hidden rounded-3xl;
+}
+
+.card-border-animated::before {
+  content: '';
+  @apply absolute inset-[-50%] bg-[conic-gradient(from_0deg, transparent_25%, #0070f3_50%, #00dfd8_75%, transparent_100%)] opacity-0 transition-opacity duration-500;
+  animation: spin 3s linear infinite;
+}
+
+.card-border-animated:hover::before {
+  @apply opacity-100;
+}
+
+.card-content {
+  @apply relative h-full w-full bg-black/90 rounded-[calc(1.5rem-1px)] p-8;
+}
+
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-blue bg-[length:200%_auto] animate-gradient;
 }
 
 .bg-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -68,10 +110,24 @@
 }
 
 /* Utility for 3D card flip */
-.rotate-x-12 {
-  transform: rotateX(12deg);
+.rotate-y-180 {
+  transform: rotateY(180deg);
 }
 
-.rotate-x-\[180deg\] {
-  transform: rotateX(180deg);
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-inner {
+  @apply transition-transform duration-700 preserve-3d relative w-full h-full;
+}
+
+.flip-card-front,
+.flip-card-back {
+  @apply absolute inset-0 backface-hidden rounded-2xl;
+}
+
+.flip-card-back {
+  @apply rotate-y-180 bg-brand-blue/10 border border-brand-blue/20 p-6 flex items-center justify-center text-center;
 }

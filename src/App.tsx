@@ -8,89 +8,77 @@ import Regulatory from "./components/Regulatory";
 import Contact from "./components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 
-const TOTAL_SLIDES = 14;
+const TOTAL_SLIDES = 12;
 
 // --- Unique transition variants per slide ---
 const slideTransitions = [
-  // 0: Hero — Opening Screen
+  // 0: Hero
   {
     initial: { opacity: 0, scale: 0.8, filter: "blur(20px)" },
     animate: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 1, ease: "easeOut" } },
     exit: { opacity: 0, scale: 1.2, filter: "blur(20px)", transition: { duration: 0.6 } },
   },
-  // 1: About Us — Slide Right
+  // 1: About Us
   {
     initial: { opacity: 0, x: "-100vw" },
     animate: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50, damping: 20 } },
     exit: { opacity: 0, x: "100vw", transition: { duration: 0.5 } },
   },
-  // 2: Expertise — Zoom In
+  // 2: Expertise
   {
     initial: { opacity: 0, scale: 0.5, z: -500 },
     animate: { opacity: 1, scale: 1, z: 0, transition: { duration: 0.8, ease: "easeOut" } },
     exit: { opacity: 0, scale: 1.5, z: 500, transition: { duration: 0.5 } },
   },
-  // 3: Services (Intro) — Curtain Open
+  // 3: Services Intro
   {
     initial: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" },
     animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } },
     exit: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)", transition: { duration: 0.6 } },
   },
-  // 4: AI Integration — Flash Open
+  // 4: AI Integration
   {
     initial: { opacity: 0, filter: "brightness(3) contrast(1.5)" },
     animate: { opacity: 1, filter: "brightness(1) contrast(1)", transition: { duration: 0.8 } },
     exit: { opacity: 0, scale: 0.9, transition: { duration: 0.4 } },
   },
-  // 5: Medicine & Management — Slide Left
+  // 5: Medicine & Management
   {
     initial: { opacity: 0, x: "100vw" },
     animate: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50, damping: 20 } },
     exit: { opacity: 0, x: "-100vw", transition: { duration: 0.5 } },
   },
-  // 6: Quality Assurance — Zoom Out
+  // 6: Quality Assurance
   {
     initial: { opacity: 0, scale: 1.5 },
     animate: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } },
     exit: { opacity: 0, scale: 0.5, transition: { duration: 0.5 } },
   },
-  // 7: Products (Intro) — Closing Screen Vertical
+  // 7: Products Intro
   {
     initial: { opacity: 0, y: "100vh" },
     animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] } },
     exit: { opacity: 0, y: "-100vh", transition: { duration: 0.6 } },
   },
-  // 8: Care Management — Horizontal Slide
+  // 8: Care Management
   {
     initial: { opacity: 0, x: "-100vw" },
     animate: { opacity: 1, x: 0, transition: { duration: 0.7 } },
     exit: { opacity: 0, scale: 0.8, transition: { duration: 0.5 } },
   },
-  // 9: Remote Care — Perspective Flip
+  // 9: Remote Care
   {
     initial: { opacity: 0, rotateY: 90 },
     animate: { opacity: 1, rotateY: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, rotateY: -90, transition: { duration: 0.5 } },
   },
-  // 10: Preventive Care — Soft Scale
+  // 10: Preventive Care
   {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1, transition: { duration: 1 } },
     exit: { opacity: 0, scale: 1.05, transition: { duration: 0.6 } },
   },
-  // 11: Medical Assistance — Diagonal Slide
-  {
-    initial: { opacity: 0, x: "-50vw", y: "50vh" },
-    animate: { opacity: 1, x: 0, y: 0, transition: { duration: 0.8 } },
-    exit: { opacity: 0, x: "50vw", y: "-50vh", transition: { duration: 0.5 } },
-  },
-  // 12: Clients — Sliding Screen
-  {
-    initial: { opacity: 0, x: "100vw" },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
-    exit: { opacity: 0, x: "-100vw", transition: { duration: 0.5 } },
-  },
-  // 13: Thank You — Closing Curtains
+  // 11: Thank You
   {
     initial: { opacity: 0, clipPath: "inset(50% 0% 50% 0%)" },
     animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } },
@@ -98,27 +86,8 @@ const slideTransitions = [
   },
 ];
 
-// Adjust BackgroundMapping to 14 slides
-const FullBackgroundMapping = [
-  Backgrounds.BubblesBG,
-  Backgrounds.TechNetworkBG,
-  Backgrounds.FloatingCubesBG,
-  Backgrounds.AuroraBG,
-  Backgrounds.DNAHelixBG,
-  Backgrounds.GridPulseBG,
-  Backgrounds.GlowingWavesBG,
-  Backgrounds.BubblesBG,
-  Backgrounds.TechNetworkBG,
-  Backgrounds.FloatingCubesBG,
-  Backgrounds.AuroraBG,
-  Backgrounds.DNAHelixBG,
-  Backgrounds.GridPulseBG,
-  Backgrounds.BubblesBG,
-];
 
-// ... (rest of App remains similar)
-
-// Content Component imports (to be created)
+// Content Component imports
 import * as Content from "./components/AppContent";
 
 const slideComponents = [
@@ -133,7 +102,6 @@ const slideComponents = [
   Content.RemoteCare,
   Content.PreventiveCare,
   Content.MedicalAssistance,
-  Content.ClientsSlide,
   Content.ThankYou
 ];
 
@@ -328,7 +296,6 @@ export default function App() {
           >
             <CurrentSlideComponent
               isActive={true}
-              currentSlide={currentSlide}
             />
           </motion.section>
         </AnimatePresence>
@@ -342,11 +309,10 @@ export default function App() {
             onClick={() => navigateTo(i)}
             whileHover={{ scale: 1.3 }}
             whileTap={{ scale: 0.9 }}
-            className={`h-2 rounded-full transition-all duration-500 ${
-              i === currentSlide
+            className={`h-2 rounded-full transition-all duration-500 ${i === currentSlide
                 ? "bg-brand-blue w-8"
                 : "bg-white/20 hover:bg-white/50 w-2"
-            }`}
+              }`}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}
