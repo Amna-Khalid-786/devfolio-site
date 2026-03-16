@@ -2,8 +2,8 @@ import { motion } from "motion/react";
 
 const navItems = [
   { name: "Intro", index: 0 },
-  { name: "Services", index: 3 },
-  { name: "Product", index: 7 },
+  { name: "Services", index: 6 },
+  { name: "Product", index: 10 },
 ];
 
 const containerVariants = {
@@ -31,9 +31,9 @@ export default function Navbar({ currentSlide = 0, setCurrentSlide }: { currentS
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-auto"
+      className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 w-full md:w-auto px-4 md:px-0"
     >
-      <div className={`flex items-center justify-center gap-8 px-10 py-4 rounded-full transition-all duration-700 glass-dark border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]`}>
+      <div className={`flex items-center justify-center gap-4 md:gap-8 px-6 md:px-10 py-3 md:py-4 rounded-full transition-all duration-700 glass-dark border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]`}>
         {navItems.map((item) => (
           <motion.button
             key={item.name}
@@ -41,18 +41,18 @@ export default function Navbar({ currentSlide = 0, setCurrentSlide }: { currentS
             variants={itemVariants}
             whileHover={{ y: -2, scale: 1.05 }}
             className={`text-sm font-bold tracking-widest uppercase transition-colors relative group focus:outline-none ${
-              (item.name === "Intro" && currentSlide < 3) ||
-              (item.name === "Services" && currentSlide >= 3 && currentSlide < 7) ||
-              (item.name === "Product" && currentSlide >= 7)
+              (item.name === "Intro" && currentSlide < 6) ||
+              (item.name === "Services" && currentSlide >= 6 && currentSlide < 10) ||
+              (item.name === "Product" && currentSlide >= 10)
                 ? "text-brand-cyan drop-shadow-[0_0_8px_rgba(0,223,216,0.6)]" 
                 : "text-white/50 hover:text-white"
             }`}
           >
             {item.name}
             <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-cyan transition-all ${
-              ((item.name === "Intro" && currentSlide < 3) ||
-              (item.name === "Services" && currentSlide >= 3 && currentSlide < 7) ||
-              (item.name === "Product" && currentSlide >= 7)) ? "w-full shadow-[0_0_10px_rgba(0,223,216,1)]" : "w-0 group-hover:w-full"
+              ((item.name === "Intro" && currentSlide < 6) ||
+              (item.name === "Services" && currentSlide >= 6 && currentSlide < 10) ||
+              (item.name === "Product" && currentSlide >= 10)) ? "w-full shadow-[0_0_10px_rgba(0,223,216,1)]" : "w-0 group-hover:w-full"
             }`} />
           </motion.button>
         ))}

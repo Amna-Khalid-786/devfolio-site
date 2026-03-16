@@ -8,7 +8,7 @@ import Regulatory from "./components/Regulatory";
 import Contact from "./components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 
-const TOTAL_SLIDES = 12;
+const TOTAL_SLIDES = 15;
 
 // --- Unique transition variants per slide ---
 const slideTransitions = [
@@ -18,61 +18,61 @@ const slideTransitions = [
     animate: { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 0 } },
     exit: { opacity: 0, transition: { duration: 0.5 } },
   },
-  // 1: About Us
+  // 1: Software Team
   {
     initial: { opacity: 0, clipPath: "inset(20% 0% 20% 0%)", scale: 0.9 },
-    animate: {
-      opacity: 1,
-      clipPath: "inset(0% 0% 0% 0%)",
-      scale: 1,
-      transition: { duration: 1.2, ease: [0.77, 0, 0.175, 1] }
-    },
-    exit: {
-      opacity: 0,
-      clipPath: "inset(20% 0% 20% 0%)",
-      scale: 1.1,
-      transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] }
-    },
+    animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", scale: 1, transition: { duration: 1.2 } },
+    exit: { opacity: 0, transition: { duration: 0.5 } },
   },
-  // 2: Expertise
+  // 2: RMT Background
   {
-    initial: { opacity: 0, scale: 0.5, z: -500 },
-    animate: { opacity: 1, scale: 1, z: 0, transition: { duration: 0.8, ease: "easeOut" } },
-    exit: { opacity: 0, scale: 1.5, z: 500, transition: { duration: 0.5 } },
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+    exit: { opacity: 0, x: 100, transition: { duration: 0.5 } },
   },
-  // 3: Services Intro
+  // 3: Our Company
+  {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.8 } },
+    exit: { opacity: 0, scale: 1.2, transition: { duration: 0.5 } },
+  },
+  // 4: Pak Facility
+  {
+    initial: { opacity: 0, y: 100 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
+  },
+  // 5: US Facility
+  {
+    initial: { opacity: 0, y: 100 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
+  },
+  // 6: Services Intro
   {
     initial: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" },
-    animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } },
-    exit: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)", transition: { duration: 0.6 } },
+    animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1 } },
+    exit: { opacity: 0, transition: { duration: 0.6 } },
   },
-  // 4: AI Integration
+  // 7: AI Integration
   {
     initial: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" },
-    animate: {
-      opacity: 1,
-      clipPath: "inset(0% 0% 0% 0%)",
-      transition: { duration: 1, ease: [0.77, 0, 0.175, 1] }
-    },
-    exit: {
-      opacity: 0,
-      clipPath: "inset(0% 50% 0% 50%)",
-      transition: { duration: 0.6 }
-    },
+    animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1 } },
+    exit: { opacity: 0, transition: { duration: 0.6 } },
   },
-  // 5: Medicine & Management
+  // 8: Medicine & Management
   {
     initial: { opacity: 0, x: "100vw" },
     animate: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50, damping: 20 } },
     exit: { opacity: 0, x: "-100vw", transition: { duration: 0.5 } },
   },
-  // 6: Quality Assurance
+  // 9: Quality Assurance
   {
     initial: { opacity: 0, scale: 1.5 },
     animate: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } },
     exit: { opacity: 0, scale: 0.5, transition: { duration: 0.5 } },
   },
-  // 7: Products Intro
+  // 10: Products Intro
   {
     initial: { opacity: 0, y: "100vh" },
     animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] } },
@@ -84,19 +84,25 @@ const slideTransitions = [
     animate: { opacity: 1, x: 0, transition: { duration: 0.7 } },
     exit: { opacity: 0, scale: 0.8, transition: { duration: 0.5 } },
   },
-  // 9: Remote Care
+  // 11: Remote Care
   {
     initial: { opacity: 0, rotateY: 90 },
     animate: { opacity: 1, rotateY: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, rotateY: -90, transition: { duration: 0.5 } },
   },
-  // 10: Preventive Care
+  // 12: Preventive Care
   {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1, transition: { duration: 1 } },
     exit: { opacity: 0, scale: 1.05, transition: { duration: 0.6 } },
   },
-  // 11: Thank You
+  // 13: Medical Assistance
+  {
+    initial: { opacity: 0, x: "100vw" },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+    exit: { opacity: 0, x: "-100vw", transition: { duration: 0.5 } },
+  },
+  // 14: Thank You
   {
     initial: { opacity: 0, clipPath: "inset(50% 0% 50% 0%)" },
     animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } },
@@ -110,8 +116,11 @@ import * as Content from "./components/AppContent";
 
 const slideComponents = [
   Hero,
-  Content.AboutUs,
-  Content.Expertise,
+  Content.SoftwareTeam,
+  Content.RMTBackground,
+  Content.OurCompany,
+  Content.PakFacility,
+  Content.USFacility,
   Content.ServicesIntro,
   Content.AIIntegration,
   Content.MedicineManagement,
@@ -153,6 +162,8 @@ const BackgroundMapping = [
   Backgrounds.AuroraBG,
   Backgrounds.DNAHelixBG,
   Backgrounds.GridPulseBG,
+  Backgrounds.GlowingWavesBG,
+  Backgrounds.BubblesBG,
 ];
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -163,9 +174,9 @@ export default function App() {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const getCategoryRange = (index: number) => {
-    if (index < 3) return [0, 2];     // Intro
-    if (index < 7) return [3, 6];     // Services
-    return [7, 11];                   // Products
+    if (index < 6) return [0, 5];     // Intro
+    if (index < 10) return [6, 9];    // Services
+    return [10, 14];                  // Products
   };
 
   const navigateTo = useCallback(
