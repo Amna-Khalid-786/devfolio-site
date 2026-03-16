@@ -2,18 +2,18 @@ import { motion } from "motion/react";
 import Scene3D from "./Scene3D";
 
 const staggerContainer = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.3,
+      staggerChildren: 0,
+      delayChildren: 0,
     },
   },
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -78,18 +78,18 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
             className="text-6xl md:text-8xl lg:text-9xl font-display font-bold leading-[0.9] mb-10 tracking-tighter perspective-1000"
           >
             <motion.span
-              initial={{ opacity: 0, y: 60, rotateX: 45 }}
+              initial={{ opacity: 1, y: 0, rotateX: 0 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 1.2, delay: 0.6, ease: [0.77, 0, 0.175, 1] }}
+              transition={{ duration: 0 }}
               className="inline-block"
             >
               Reshaping
             </motion.span>
             <br />
             <motion.span
-              initial={{ opacity: 0, y: 60, rotateX: 45 }}
+              initial={{ opacity: 1, y: 0, rotateX: 0 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 1.2, delay: 0.8, ease: [0.77, 0, 0.175, 1] }}
+              transition={{ duration: 0 }}
               className="text-gradient inline-block"
             >
               Healthcare
@@ -99,7 +99,7 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
           {/* Description */}
           <motion.p
             variants={fadeUp}
-            transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
+            transition={{ duration: 0 }}
             className="max-w-2xl mx-auto text-lg md:text-xl text-white/50 mb-12 leading-relaxed font-light"
           >
             Your comprehensive software solution partner, guiding you from

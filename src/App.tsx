@@ -21,17 +21,17 @@ const slideTransitions = [
   // 1: About Us
   {
     initial: { opacity: 0, clipPath: "inset(20% 0% 20% 0%)", scale: 0.9 },
-    animate: { 
-      opacity: 1, 
-      clipPath: "inset(0% 0% 0% 0%)", 
-      scale: 1, 
-      transition: { duration: 1.2, ease: [0.77, 0, 0.175, 1] } 
+    animate: {
+      opacity: 1,
+      clipPath: "inset(0% 0% 0% 0%)",
+      scale: 1,
+      transition: { duration: 1.2, ease: [0.77, 0, 0.175, 1] }
     },
-    exit: { 
-      opacity: 0, 
-      clipPath: "inset(20% 0% 20% 0%)", 
-      scale: 1.1, 
-      transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] } 
+    exit: {
+      opacity: 0,
+      clipPath: "inset(20% 0% 20% 0%)",
+      scale: 1.1,
+      transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] }
     },
   },
   // 2: Expertise
@@ -49,15 +49,15 @@ const slideTransitions = [
   // 4: AI Integration
   {
     initial: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" },
-    animate: { 
-      opacity: 1, 
-      clipPath: "inset(0% 0% 0% 0%)", 
-      transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } 
+    animate: {
+      opacity: 1,
+      clipPath: "inset(0% 0% 0% 0%)",
+      transition: { duration: 1, ease: [0.77, 0, 0.175, 1] }
     },
-    exit: { 
-      opacity: 0, 
-      clipPath: "inset(0% 50% 0% 50%)", 
-      transition: { duration: 0.6 } 
+    exit: {
+      opacity: 0,
+      clipPath: "inset(0% 50% 0% 50%)",
+      transition: { duration: 0.6 }
     },
   },
   // 5: Medicine & Management
@@ -188,7 +188,7 @@ export default function App() {
   }, [currentSlide, navigateTo]);
 
   const goToPrev = useCallback(() => {
-    const [min, ] = getCategoryRange(currentSlide);
+    const [min,] = getCategoryRange(currentSlide);
     if (currentSlide > min) {
       navigateTo(currentSlide - 1);
     }
@@ -311,8 +311,8 @@ export default function App() {
             whileHover={{ scale: 1.3 }}
             whileTap={{ scale: 0.9 }}
             className={`h-2 rounded-full transition-all duration-500 ${index === currentSlide
-                ? "bg-brand-blue w-8"
-                : "bg-white/20 hover:bg-white/50 w-2"
+              ? "bg-brand-blue w-8"
+              : "bg-white/20 hover:bg-white/50 w-2"
               }`}
             aria-label={`Go to slide ${index + 1}`}
           />
