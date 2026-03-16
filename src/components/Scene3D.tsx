@@ -22,7 +22,7 @@ function FloatingParticles({ count = 500 }) {
   });
 
   return (
-    <Points ref={ref} positions={points} stride={3} frustumCulled={false}>
+    <Points ref={ref} positions={points} frustumCulled={false}>
       <PointMaterial
         transparent
         color="#00dfd8"

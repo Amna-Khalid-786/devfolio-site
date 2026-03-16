@@ -71,8 +71,8 @@ export default function Labs({ isActive }: { isActive?: boolean }) {
       <div className="w-full h-full flex flex-col justify-center overflow-hidden px-6 md:px-16 pt-24">
         {/* Centered Header */}
         <motion.div
-          initial={{ opacity: 0, x: 60, filter: "blur(10px)" }}
-          animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-10"
         >

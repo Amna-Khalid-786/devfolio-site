@@ -65,7 +65,7 @@ export default function Mission({
           scale: slideActive ? [1, 1.1, 1] : 0.8,
         }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/10 blur-[120px] rounded-full pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/10 rounded-full pointer-events-none"
       />
 
       <div
@@ -81,11 +81,11 @@ export default function Mission({
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            initial={{ opacity: 0, scale: 0.6, y: 80, filter: "blur(20px)" }}
+            initial={{ opacity: 0, scale: 0.6, y: 80 }}
             animate={
               slideActive
-                ? { opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }
-                : { opacity: 0, scale: 0.6, y: 80, filter: "blur(20px)" }
+                ? { opacity: 1, scale: 1, y: 0 }
+                : { opacity: 0, scale: 0.6, y: 80 }
             }
             transition={{ duration: 0.9, type: "spring", bounce: 0.3 }}
             className="relative w-full rounded-[3rem] border border-white/10 glass-dark p-12 md:p-24 shadow-[0_50px_100px_rgba(0,0,0,0.8)] group flex flex-col items-center text-center overflow-visible"

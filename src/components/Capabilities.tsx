@@ -64,7 +64,7 @@ function EnvelopeCard({ cap, index }: { cap: any; index: number; key?: any }) {
       {/* 3D Envelope Container */}
       <div className="w-full h-full relative preserve-3d group-hover:rotate-x-12 transition-transform duration-700 ease-in-out">
         {/* Shadow Drop */}
-        <div className="absolute -bottom-4 left-4 right-4 h-8 bg-black/60 blur-xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="absolute -bottom-4 left-4 right-4 h-8 bg-black/60 rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
 
         {/* Back of Envelope */}
         <div className="absolute inset-0 bg-dark-bg/80 border border-white/5 rounded-2xl shadow-inner z-0 overflow-hidden">
@@ -150,8 +150,8 @@ export default function Capabilities({ isActive }: { isActive?: boolean }) {
         <div className="flex flex-col items-center text-center mb-16 gap-4">
           {/* Header wipe-reveal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex items-center gap-3 mb-2"
           >
@@ -173,8 +173,8 @@ export default function Capabilities({ isActive }: { isActive?: boolean }) {
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-4xl md:text-6xl font-display font-bold tracking-tighter"
           >

@@ -14,15 +14,25 @@ const TOTAL_SLIDES = 12;
 const slideTransitions = [
   // 0: Hero
   {
-    initial: { opacity: 0, scale: 0.8, filter: "blur(20px)" },
-    animate: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 1, ease: "easeOut" } },
-    exit: { opacity: 0, scale: 1.2, filter: "blur(20px)", transition: { duration: 0.6 } },
+    initial: { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" },
+    animate: { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 0 } },
+    exit: { opacity: 0, transition: { duration: 0.5 } },
   },
   // 1: About Us
   {
-    initial: { opacity: 0, x: "-100vw" },
-    animate: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50, damping: 20 } },
-    exit: { opacity: 0, x: "100vw", transition: { duration: 0.5 } },
+    initial: { opacity: 0, clipPath: "inset(20% 0% 20% 0%)", scale: 0.9 },
+    animate: { 
+      opacity: 1, 
+      clipPath: "inset(0% 0% 0% 0%)", 
+      scale: 1, 
+      transition: { duration: 1.2, ease: [0.77, 0, 0.175, 1] } 
+    },
+    exit: { 
+      opacity: 0, 
+      clipPath: "inset(20% 0% 20% 0%)", 
+      scale: 1.1, 
+      transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] } 
+    },
   },
   // 2: Expertise
   {
@@ -38,9 +48,17 @@ const slideTransitions = [
   },
   // 4: AI Integration
   {
-    initial: { opacity: 0, y: 50 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-    exit: { opacity: 0, y: -50, transition: { duration: 0.5 } },
+    initial: { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" },
+    animate: { 
+      opacity: 1, 
+      clipPath: "inset(0% 0% 0% 0%)", 
+      transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } 
+    },
+    exit: { 
+      opacity: 0, 
+      clipPath: "inset(0% 50% 0% 50%)", 
+      transition: { duration: 0.6 } 
+    },
   },
   // 5: Medicine & Management
   {
@@ -82,7 +100,7 @@ const slideTransitions = [
   {
     initial: { opacity: 0, clipPath: "inset(50% 0% 50% 0%)" },
     animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] } },
-    exit: { opacity: 0, filter: "blur(20px)", transition: { duration: 0.8 } },
+    exit: { opacity: 0, transition: { duration: 0.8 } },
   },
 ];
 
@@ -143,7 +161,6 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [showFlash, setShowFlash] = useState(false);
 
   const getCategoryRange = (index: number) => {
     if (index < 3) return [0, 2];     // Intro
@@ -158,12 +175,7 @@ export default function App() {
       if (clamped === currentSlide) return;
       setDirection(clamped > currentSlide ? 1 : -1);
       setIsTransitioning(true);
-      setShowFlash(true);
-      // Small delay for the flash overlay before changing slide
-      setTimeout(() => {
-        setCurrentSlide(clamped);
-        setTimeout(() => setShowFlash(false), 200);
-      }, 150);
+      setCurrentSlide(clamped);
     },
     [currentSlide, isTransitioning]
   );
@@ -225,19 +237,6 @@ export default function App() {
         return <BG />;
       })()}
 
-      {/* Slide Transition Flash Overlay */}
-      <AnimatePresence>
-        {showFlash && (
-          <motion.div
-            key="flash"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[55] pointer-events-none slide-transition-overlay"
-          />
-        )}
-      </AnimatePresence>
 
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-white/10 z-[60]">
@@ -266,6 +265,7 @@ export default function App() {
           >
             <CurrentSlideComponent
               isActive={true}
+              slideActive={true}
             />
           </motion.section>
         </AnimatePresence>
@@ -280,7 +280,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             onClick={goToPrev}
-            className="fixed left-8 top-1/2 -translate-y-1/2 z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all backdrop-blur-sm cursor-pointer"
+            className="fixed left-8 top-1/2 -translate-y-1/2 z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all cursor-pointer"
           >
             <ChevronLeft size={32} />
           </motion.button>
@@ -295,7 +295,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             onClick={goToNext}
-            className="fixed right-8 top-1/2 -translate-y-1/2 z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all backdrop-blur-sm cursor-pointer"
+            className="fixed right-8 top-1/2 -translate-y-1/2 z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all cursor-pointer"
           >
             <ChevronRight size={32} />
           </motion.button>

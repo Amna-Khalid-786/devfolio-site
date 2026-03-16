@@ -5,7 +5,7 @@ export const BubblesBG = () => (
     {[...Array(20)].map((_, i) => (
       <motion.div
         key={i}
-        className="absolute rounded-full bg-brand-blue/20 blur-xl"
+        className="absolute rounded-full bg-brand-blue/20"
         style={{
           width: Math.random() * 300 + 100,
           height: Math.random() * 300 + 100,

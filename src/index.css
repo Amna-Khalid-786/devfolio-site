@@ -60,11 +60,11 @@
 }
 
 .glass {
-  @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08];
+  @apply bg-white/[0.03] border border-white/[0.08];
 }
 
 .glass-dark {
-  @apply bg-black/40 backdrop-blur-2xl border border-white/5;
+  @apply bg-black/40 border border-white/5;
 }
 
 .card-border-animated {

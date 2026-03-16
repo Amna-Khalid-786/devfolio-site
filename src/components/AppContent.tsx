@@ -67,7 +67,7 @@ export const AboutUs = ({ ...props }) => (
                         <motion.div
                             animate={{ rotate: -360 }}
                             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                            className="w-1/2 h-1/2 bg-brand-cyan/20 rounded-full blur-2xl"
+                            className="w-1/2 h-1/2 bg-brand-cyan/20 rounded-full"
                         />
                     </motion.div>
                 </div>
@@ -127,7 +127,7 @@ export const ServicesIntro = () => (
 );
 
 // 4. AI Integration
-export const AIIntegration = () => {
+export const AIIntegration = ({ slideActive }: { slideActive?: boolean }) => {
     const aiServices = [
         {
             title: "Clinical Intelligence",
@@ -205,12 +205,12 @@ export const AIIntegration = () => {
                 <motion.div
                     animate={{ rotate: 360, scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute w-[800px] h-[800px] bg-brand-cyan/10 rounded-full blur-[120px]"
+                    className="absolute w-[800px] h-[800px] bg-brand-cyan/10 rounded-full"
                 />
                 <motion.div
                     animate={{ rotate: -360, scale: [1, 1.5, 1], opacity: [0.2, 0.4, 0.2] }}
                     transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                    className="absolute w-[600px] h-[600px] bg-brand-blue/10 rounded-full blur-[100px] ml-40 mt-20"
+                    className="absolute w-[600px] h-[600px] bg-brand-blue/10 rounded-full ml-40 mt-20"
                 />
             </div>
             
@@ -221,9 +221,8 @@ export const AIIntegration = () => {
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.05, duration: 0.6 }}
+                        animate={slideActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                        transition={{ delay: 0.4 + i * 0.05, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                         className="group relative w-[calc(25%-1rem)] min-w-[200px] max-w-[260px] h-[220px] perspective-[1000px] cursor-pointer"
                     >
                         <div className="relative w-full h-full transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[0_0_20px_rgba(0,223,216,0.05)] hover:shadow-[0_0_30px_rgba(0,223,216,0.15)] rounded-2xl">
@@ -494,7 +493,7 @@ export const RemoteCare = () => (
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/20 to-transparent" />
                     <div className="flex items-center justify-center h-full">
-                        <motion.div animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2, repeat: Infinity }} className="w-1/2 h-px bg-brand-cyan blur-sm" />
+                        <motion.div animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2, repeat: Infinity }} className="w-1/2 h-px bg-brand-cyan" />
                     </div>
                 </motion.div>
             </div>
@@ -518,7 +517,7 @@ export const PreventiveCare = () => (
                     whileHover={{ scale: 1.02 }}
                     className="group relative"
                 >
-                    <div className={`absolute -inset-1 bg-gradient-to-r ${item.color === 'brand-blue' ? 'from-brand-blue to-purple-600' : 'from-brand-cyan to-blue-500'} rounded-[2rem] blur opacity-20 group-hover:opacity-50 transition duration-1000 group-hover:duration-200`} />
+                    <div className={`absolute -inset-1 bg-gradient-to-r ${item.color === 'brand-blue' ? 'from-brand-blue to-purple-600' : 'from-brand-cyan to-blue-500'} rounded-[2rem] opacity-20 group-hover:opacity-50 transition duration-1000 group-hover:duration-200`} />
                     <div className="relative p-10 glass-dark rounded-[2rem] border border-white/10 h-full">
                         <h3 className={`text-2xl font-bold mb-6 ${item.color === 'brand-blue' ? 'text-brand-blue' : 'text-brand-cyan'}`}>{item.title}</h3>
                         <p className="text-white/50 leading-relaxed font-light">

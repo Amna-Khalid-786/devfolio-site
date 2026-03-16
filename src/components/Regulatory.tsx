@@ -78,8 +78,8 @@ function FlipCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 1.6, filter: "blur(12px)" }}
-      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+      initial={{ opacity: 0, scale: 1.6 }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{
         delay: index * 0.1,
         duration: 0.7,
@@ -195,8 +195,8 @@ export default function Regulatory({ isActive }: { isActive?: boolean }) {
       <div className="w-full h-full flex flex-col justify-center px-6 md:px-16 pt-24 overflow-hidden">
         {/* Centered Header — zoom out entrance */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.4, filter: "blur(10px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          initial={{ opacity: 0, scale: 1.4 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-6"
         >

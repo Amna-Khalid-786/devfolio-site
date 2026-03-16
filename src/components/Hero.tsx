@@ -13,8 +13,8 @@ const staggerContainer = {
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
 };
 
 const scaleIn = {
@@ -49,7 +49,7 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 3, opacity: [0, 0.15, 0] }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-brand-blue/30 blur-[60px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-brand-blue/30 pointer-events-none"
       />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
@@ -80,7 +80,7 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
             <motion.span
               initial={{ opacity: 0, y: 60, rotateX: 45 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.2, delay: 0.6, ease: [0.77, 0, 0.175, 1] }}
               className="inline-block"
             >
               Reshaping
@@ -89,7 +89,7 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
             <motion.span
               initial={{ opacity: 0, y: 60, rotateX: 45 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.2, delay: 0.8, ease: [0.77, 0, 0.175, 1] }}
               className="text-gradient inline-block"
             >
               Healthcare
@@ -99,7 +99,7 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
           {/* Description */}
           <motion.p
             variants={fadeUp}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
             className="max-w-2xl mx-auto text-lg md:text-xl text-white/50 mb-12 leading-relaxed font-light"
           >
             Your comprehensive software solution partner, guiding you from
