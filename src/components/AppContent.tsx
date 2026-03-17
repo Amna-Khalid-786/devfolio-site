@@ -680,20 +680,20 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
 
 export const CategoryDetail = ({ title, items, categoryNum }: { title: string, items: { title: string, desc: string }[], categoryNum: string }) => (
     <Container className="justify-center py-4">
-        <div className="flex flex-col md:flex-row md:items-end gap-3 md:gap-5 mb-6 md:mb-8">
+        <div className="flex items-center gap-5 md:gap-8 mb-8 md:mb-10">
             <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 0.2, x: 0 }}
-                className="text-5xl md:text-7xl font-bold text-brand-cyan leading-none"
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 0.3, scale: 1 }}
+                className="text-6xl md:text-8xl font-black text-brand-cyan leading-none shrink-0"
             >
                 {categoryNum}
             </motion.div>
-            <div className="pb-1">
-                <SubHeading className="text-[10px] md:text-xs">SERVICE CATEGORY</SubHeading>
-                <Heading gradient className="text-2xl md:text-4xl leading-tight">{title}</Heading>
+            <div>
+                <SubHeading className="text-[10px] md:text-xs mb-2">SERVICE CATEGORY</SubHeading>
+                <Heading gradient className="text-2xl md:text-4xl leading-tight !mb-0">{title}</Heading>
             </div>
         </div>
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 ${items.length > 3 ? 'lg:grid-cols-3' : 'md:grid-cols-3'} max-h-[70vh] items-stretch`}>
+        <div className={`grid gap-4 md:gap-5 items-stretch ${items.length <= 3 ? 'grid-cols-1 md:grid-cols-3' : items.length <= 4 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-3 lg:grid-cols-5'}`}>
             {items.map((item, i) => (
                 <motion.div
                     key={i}
@@ -773,19 +773,62 @@ export const Cat5Details = () => (
     />
 );
 
-export const Cat2Details = () => (
-    <CategoryDetail
-        categoryNum="02"
-        title="Application & Platform Development"
-        items={[
-            { title: "Custom Medical Web Application Development", desc: "Builds secure, scalable, and user-friendly web-based platforms for clinical, administrative, or patient use." },
-            { title: "Medical Mobile App Development", desc: "Creates native and cross-platform mobile applications for patients, providers, and field researchers, focusing on usability and security." },
-            { title: "Remote Patient Monitoring (RPM) Solutions", desc: "Designs and develops comprehensive platforms, including patient-facing apps and provider dashboards, to track and manage patient health data remotely." },
-            { title: "Medical Imaging, Analysis & Management Systems", desc: "Builds software for the secure storage, viewing, annotation, and AI-powered analysis of medical images (like DICOM viewers)." },
-            { title: "Drug Discovery, Development & Management Platforms", desc: "Creates specialized software to manage research data, streamline clinical trials, and support the drug development lifecycle." }
-        ]}
-    />
-);
+export const Cat2Details = () => {
+    const items = [
+        { title: "Custom Medical Web Applications", desc: "Secure, scalable, and user-friendly web-based platforms for clinical, administrative, or patient use." },
+        { title: "Medical Mobile Apps", desc: "Native and cross-platform mobile applications for patients, providers, and field researchers." },
+        { title: "Remote Patient Monitoring (RPM)", desc: "Comprehensive platforms with patient-facing apps and provider dashboards for remote health tracking." },
+        { title: "Electronic Health Records (EHR)", desc: "Comprehensive EHR systems enabling seamless health data management, interoperability, and regulatory compliance." },
+        { title: "Medical Imaging & Analysis", desc: "Software for secure storage, viewing, annotation, and AI-powered analysis of medical images." },
+        { title: "Drug Discovery Platforms", desc: "Specialized software to manage research data, streamline clinical trials, and support the drug lifecycle." }
+    ];
+
+    return (
+        <Container className="justify-center py-4">
+            <div className="flex items-center gap-5 md:gap-8 mb-8 md:mb-10">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 0.3, scale: 1 }}
+                    className="text-6xl md:text-8xl font-black text-brand-cyan leading-none shrink-0"
+                >
+                    02
+                </motion.div>
+                <div>
+                    <SubHeading className="text-[10px] md:text-xs mb-2">SERVICE CATEGORY</SubHeading>
+                    <Heading gradient className="text-2xl md:text-4xl leading-tight !mb-0">Application & Platform Development</Heading>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 w-full">
+                {items.map((item, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.05 }}
+                        whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
+                        className="group relative flex flex-col h-full"
+                    >
+                        <div className="absolute inset-0 rounded-2xl p-[1.5px] overflow-hidden">
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+                            />
+                        </div>
+                        <div className="relative h-full flex flex-col bg-[#0a0a0a]/95 backdrop-blur-md rounded-2xl p-5 md:p-6 z-10 border border-white/5 transition-all duration-300 group-hover:border-brand-cyan/20 group-hover:shadow-[0_0_30px_rgba(0,223,216,0.15)]">
+                            <div className="mb-3 w-9 h-9 flex items-center justify-center rounded-lg bg-brand-blue/10 text-brand-blue border border-brand-blue/20 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500 shrink-0">
+                                <span className="text-xs font-bold">{i + 1}</span>
+                            </div>
+                            <h3 className="text-base md:text-lg font-bold mb-2 group-hover:text-brand-cyan transition-colors duration-300 leading-snug">{item.title}</h3>
+                            <p className="text-white/40 text-xs leading-relaxed group-hover:text-white/70 transition-colors flex-grow">{item.desc}</p>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        </Container>
+    );
+};
 
 export const Cat3Details = () => (
     <CategoryDetail
@@ -799,18 +842,54 @@ export const Cat3Details = () => (
     />
 );
 
-export const Cat4Details = () => (
-    <CategoryDetail
-        categoryNum="04"
-        title="Infrastructure & Lifecycle Management"
-        items={[
-            { title: "DevOps & Cloud Infrastructure for Healthcare", desc: "Provides services to automate software deployment, manage cloud infrastructure (AWS, Azure, GCP), and ensure high availability and scalability of your medical software." },
-            { title: "SaaS Enablement & Modernization", desc: "Helps transform traditional medical software into modern, scalable Software-as-a-Service (SaaS) models." },
-            { title: "Independent Quality Assurance (QA) & Validation", desc: "Offers comprehensive testing services for medical software, including functionality, security, performance, and compliance validation (IQ/OQ/PQ)." },
-            { title: "Ongoing Maintenance & Technical Support", desc: "Provides reliable, ongoing IT support, bug fixes, security patches, and performance monitoring for deployed medical software." }
-        ]}
-    />
-);
+export const Cat4Details = () => {
+    const items = [
+        { title: "DevOps & Cloud Infrastructure", desc: "Automate deployments, manage cloud infrastructure (AWS, Azure, GCP), and ensure high availability and scalability." },
+        { title: "SaaS Enablement & Modernization", desc: "Transform traditional medical software into modern, scalable Software-as-a-Service (SaaS) models." },
+        { title: "Quality Assurance & Validation", desc: "Comprehensive testing including functionality, security, performance, and compliance validation (IQ/OQ/PQ)." },
+        { title: "Ongoing Maintenance & Support", desc: "Reliable IT support, bug fixes, security patches, and continuous performance monitoring." }
+    ];
+
+    return (
+        <Container className="justify-center py-4">
+            <div className="flex items-center gap-5 md:gap-8 mb-8 md:mb-10">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 0.3, scale: 1 }}
+                    className="text-6xl md:text-8xl font-black text-brand-cyan leading-none shrink-0"
+                >
+                    05
+                </motion.div>
+                <div>
+                    <SubHeading className="text-[10px] md:text-xs mb-2">SERVICE CATEGORY</SubHeading>
+                    <Heading gradient className="text-2xl md:text-4xl leading-tight !mb-0">Infrastructure & Lifecycle Management</Heading>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+                {items.map((item, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1, duration: 0.6 }}
+                        className="group flex gap-5 items-start"
+                    >
+                        <div className="shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20 group-hover:bg-brand-cyan group-hover:text-black transition-all duration-500 shadow-lg">
+                            <span className="text-sm font-bold">0{i + 1}</span>
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-brand-cyan transition-colors duration-300">{item.title}</h3>
+                            <p className="text-white/50 text-sm leading-relaxed group-hover:text-white/80 transition-colors">{item.desc}</p>
+                            <div className="mt-3 h-px w-full bg-gradient-to-r from-brand-cyan/20 via-brand-blue/10 to-transparent" />
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        </Container>
+    );
+};
 
 // 12. Products Intro
 export const CareManagement = () => (
