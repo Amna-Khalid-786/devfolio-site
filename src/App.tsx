@@ -8,7 +8,7 @@ import Regulatory from "./components/Regulatory";
 import Contact from "./components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 
-const TOTAL_SLIDES = 20;
+const TOTAL_SLIDES = 21;
 
 // --- Unique transition variants per slide ---
 const slideTransitions = [
@@ -96,7 +96,13 @@ const slideTransitions = [
     animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
   },
-  // 14: Products Intro
+  // 14: Cat 5 Detail
+  {
+    initial: { opacity: 0, y: 100 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
+  },
+  // 15: Products Intro
   {
     initial: { opacity: 0, y: "100vh" },
     animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] } },
@@ -152,6 +158,7 @@ const slideComponents = [
   Content.Cat1Details,
   Content.Cat2Details,
   Content.Cat3Details,
+  Content.Cat5Details,
   Content.Cat4Details,
   Content.ProductsIntro,
   Content.CareManagement,
@@ -192,7 +199,8 @@ const BackgroundMapping = [
   Backgrounds.TechNetworkBG, // Cat 1
   Backgrounds.FloatingCubesBG, // Cat 2
   Backgrounds.AuroraBG, // Cat 3
-  Backgrounds.DNAHelixBG, // Cat 4
+  Backgrounds.DNAHelixBG, // Cat 5
+  Backgrounds.GridPulseBG, // Cat 4
   Backgrounds.AuroraBG, // Products Intro
   Backgrounds.DNAHelixBG,
   Backgrounds.GridPulseBG,
@@ -212,12 +220,12 @@ export default function App() {
   const lastScrollTime = useRef(0);
   const SCROLL_COOLDOWN = 1000;
 
-  const isServices = currentSlide >= 8 && currentSlide <= 13;
+  const isServices = currentSlide >= 8 && currentSlide <= 14;
 
   const getCategoryRange = (index: number) => {
     if (index < 8) return [0, 7];     // Intro
-    if (index < 14) return [8, 13];    // Services
-    return [14, 19];                  // Products
+    if (index < 15) return [8, 14];    // Services (9 categories selection + 5 details)
+    return [15, 20];                  // Products
   };
 
   const navigateTo = useCallback(

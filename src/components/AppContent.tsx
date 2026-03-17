@@ -1,7 +1,7 @@
 import React from "react";
 import Globe from "react-globe.gl";
 import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
-import { Brain, Code2, Zap, Server } from "lucide-react";
+import { Brain, Code2, Zap, Server, ShieldCheck } from "lucide-react";
 
 const Container = ({ children, className = "", isActive, ...props }: { children: React.ReactNode, className?: string, isActive?: boolean, [key: string]: any }) => {
     const { scrollYProgress } = useScroll();
@@ -449,7 +449,7 @@ export const AnimatedMap = () => {
                                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
                                 bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
                                 backgroundColor="rgba(0,0,0,0)"
-                                
+
                                 onGlobeClick={() => setShow2DMap(true)}
 
                                 // Arcs configuration
@@ -619,7 +619,8 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
         { title: "Artificial Intelligence", subtitle: "Advanced Analytics", icon: Brain, color: "cyan" as const },
         { title: "App Development", subtitle: "Platform Solutions", icon: Code2, color: "blue" as const },
         { title: "Automation", subtitle: "Operational Efficiency", icon: Zap, color: "cyan" as const },
-        { title: "Infrastructure", subtitle: "Lifecycle Management", icon: Server, color: "blue" as const }
+        { title: "HIPAA Compliance", subtitle: "Regulatory Standards", icon: ShieldCheck, color: "blue" as const },
+        { title: "Infrastructure", subtitle: "Lifecycle Management", icon: Server, color: "cyan" as const }
     ];
 
     return (
@@ -628,7 +629,7 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
                 <SubHeading className="text-[10px] md:text-xs">OUR EXPERTISE</SubHeading>
                 <Heading gradient className="text-3xl md:text-5xl">Medical Solutions</Heading>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-6xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5 w-full max-w-7xl">
                 {categories.map((cat, i) => (
                     <motion.div
                         key={i}
@@ -637,13 +638,19 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.1 }}
                         whileHover={{ y: -10, scale: 1.02 }}
-                        onClick={() => onSelect(i + 1)}
+                        onClick={() => onSelect(10 + i)}
                         className="group relative cursor-pointer flex flex-col h-full"
                     >
-                        {/* Premium Outer Glow */}
-                        <div className={`absolute -inset-2 bg-brand-${cat.color}/20 rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500`} />
-                        
-                        <div className="relative h-full glass-dark border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center group-hover:border-brand-cyan/40 group-hover:bg-black/80 transition-all duration-500 shadow-2xl overflow-hidden">
+                        {/* Continuous Border Animation */}
+                        <div className="absolute inset-0 rounded-[2rem] p-[2px] overflow-hidden">
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                className={`absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-30 group-hover:opacity-100 transition-opacity duration-500`}
+                            />
+                        </div>
+
+                        <div className="relative h-full glass-dark border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center group-hover:border-brand-cyan/40 group-hover:bg-black/90 transition-all duration-500 shadow-2xl overflow-hidden z-10">
                             {/* Animated Icon Container */}
                             <div className={`mb-6 w-16 h-16 flex items-center justify-center rounded-2xl bg-brand-${cat.color}/10 text-brand-${cat.color} border border-brand-${cat.color}/20 group-hover:bg-brand-${cat.color} group-hover:text-black transition-all duration-500 shadow-lg group-hover:shadow-brand-${cat.color}/40 relative overflow-hidden shrink-0`}>
                                 <cat.icon size={32} className="relative z-10 group-hover:scale-110 transition-transform duration-500" />
@@ -656,7 +663,7 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
                             <p className="text-[10px] md:text-xs text-white/40 uppercase tracking-[0.2em] mb-8 group-hover:text-white/60 transition-colors">
                                 {cat.subtitle}
                             </p>
-                            
+
                             <div className="mt-auto px-6 py-2 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] group-hover:bg-brand-cyan group-hover:text-black transition-all duration-300">
                                 Explore Detail
                             </div>
@@ -674,7 +681,7 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
 export const CategoryDetail = ({ title, items, categoryNum }: { title: string, items: { title: string, desc: string }[], categoryNum: string }) => (
     <Container className="justify-center py-4">
         <div className="flex flex-col md:flex-row md:items-end gap-3 md:gap-5 mb-6 md:mb-8">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 0.2, x: 0 }}
                 className="text-5xl md:text-7xl font-bold text-brand-cyan leading-none"
@@ -694,31 +701,38 @@ export const CategoryDetail = ({ title, items, categoryNum }: { title: string, i
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.05 }}
-                    whileHover={{ 
+                    whileHover={{
                         y: -8,
                         scale: 1.02,
                         transition: { duration: 0.2 }
                     }}
                     className="group relative flex flex-col h-full"
                 >
-                    <div className="absolute -inset-1 bg-brand-cyan/10 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    <div className="relative h-full flex flex-col bg-[#0a0a0a]/90 backdrop-blur-sm rounded-[1.5rem] p-6 md:p-8 z-10 border border-white/5 transition-all duration-300 group-hover:border-brand-cyan/20 group-hover:shadow-[0_0_30px_rgba(0,223,216,0.1)]">
+                    {/* Continuous Border Animation for detail cards */}
+                    <div className="absolute inset-0 rounded-[1.5rem] p-[1.5px] overflow-hidden">
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-[-150%] bg-[conic-gradient(from_0deg,transparent_20%,#0070f3_40%,#00dfd8_60%,transparent_80%)] opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+                        />
+                    </div>
+
+                    <div className="relative h-full flex flex-col bg-[#0a0a0a]/95 backdrop-blur-md rounded-[1.5rem] p-6 md:p-8 z-10 border border-white/5 transition-all duration-300 group-hover:border-brand-cyan/20 group-hover:shadow-[0_0_30px_rgba(0,223,216,0.15)]">
                         {/* Compact Decorative Number */}
                         <div className="absolute top-0 right-0 p-6 text-5xl font-bold text-white/[0.01] group-hover:text-brand-cyan/[0.03] transition-colors pointer-events-none">0{i + 1}</div>
-                        
+
                         <div className="mb-4 w-10 h-10 flex items-center justify-center rounded-xl bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20 group-hover:bg-brand-cyan group-hover:text-black transition-all duration-500 shadow-lg relative overflow-hidden shrink-0">
                             <span className="text-xs font-bold z-10">{i + 1}</span>
                             <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-500" />
                         </div>
-                        
+
                         <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-brand-cyan transition-colors duration-300 leading-snug">
                             {item.title}
                         </h3>
                         <p className="text-white/40 text-xs md:text-sm leading-relaxed group-hover:text-white/80 transition-colors flex-grow">
                             {item.desc}
                         </p>
-                        
+
                         {/* Minimal accent */}
                         <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500">
                             <span className="text-[9px] uppercase tracking-widest font-bold text-brand-cyan/60">Module 0{i + 1}</span>
@@ -737,11 +751,24 @@ export const Cat1Details = () => (
         categoryNum="01"
         title="Artificial Intelligence & Advanced Analytics"
         items={[
-            { title: "Generative AI for Healthcare", desc: "Develops custom AI models to generate synthetic patient data, automate clinical documentation, or create patient education materials." },
-            { title: "AI-Powered Clinical Decision Support (CDS)", desc: "Builds intelligent systems that analyze patient data in real-time to provide clinicians with evidence-based diagnostic and treatment recommendations." },
-            { title: "Preventive & Predictive Health Analytics", desc: "Creates algorithms that analyze patient data to identify individuals at risk for specific conditions, enabling early intervention." },
-            { title: "Intelligent System Checker & Audit", desc: "Develops automated tools to continuously monitor software and data integrity, ensuring compliance and flagging anomalies." },
-            { title: "AI-Enabled Medical Billing & Coding", desc: "Automates the complex process of medical coding and billing to improve accuracy, reduce denials, and accelerate reimbursement." }
+            { title: "Generative AI for Healthcare", desc: "Revolutionizing patient care with custom AI models that produce synthetic data, automate clinical notes, and create engaging patient education materials." },
+            { title: "AI-Powered Clinical Decision Support", desc: "Harnessing real-time patient data to empower clinicians with intelligent, evidence-based diagnostic and treatment recommendations." },
+            { title: "Predictive Health Analytics", desc: "Sophisticated algorithms identifying at-risk individuals early, transforming healthcare from reactive to proactive intervention." },
+            { title: "Intelligent Audit & Compliance", desc: "Continuous, automated monitoring of software and data integrity, ensuring ironclad compliance and instant anomaly detection." },
+            { title: "AI-Enabled Billing Efficiency", desc: "Strategic automation of medical coding and billing, slashing denials and accelerating reimbursement cycles." }
+        ]}
+    />
+);
+
+export const Cat5Details = () => (
+    <CategoryDetail
+        categoryNum="04"
+        title="HIPAA Compliance & Regulatory Standards"
+        items={[
+            { title: "PHI Security & Encryption", desc: "Implementing enterprise-grade encryption for Protected Health Information (PHI) both at rest and in transit." },
+            { title: "Access Control & Audit Trails", desc: "Developing granular access controls and comprehensive logging systems to monitor every interaction with sensitive data." },
+            { title: "Business Associate Agreements", desc: "Ensuring all software integrations and third-party services adhere to strict HIPAA BAA requirements." },
+            { title: "Risk Assessment & Mitigation", desc: "Conducting thorough security risk analyses and implementing safeguards to prevent data breaches." }
         ]}
     />
 );
