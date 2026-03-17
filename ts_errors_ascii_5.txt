@@ -1,0 +1,1 @@
+src/components/AppContent.tsx(1,8): error TS1259: Module '"C:/Projects/devfolio-site/node_modules/@types/react/index"' can only be default-imported using the 'allowSyntheticDefaultImports' flag

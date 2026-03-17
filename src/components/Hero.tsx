@@ -83,7 +83,7 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
               transition={{ duration: 0 }}
               className="inline-block"
             >
-              Reshaping
+              Innovating
             </motion.span>
             <br />
             <motion.span
@@ -107,44 +107,6 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
             commercial reality.
           </motion.p>
 
-          {/* CTA Buttons with floating animation */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05, y: -4 }}
-              whileTap={{ scale: 0.95 }}
-              animate={{
-                y: [0, -6, 0],
-              }}
-              transition={{
-                y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              }}
-              className="group px-10 py-5 bg-brand-blue rounded-full font-bold flex items-center justify-center shadow-[0_0_40px_rgba(0,112,243,0.3)] hover:shadow-[0_0_60px_rgba(0,112,243,0.5)] transition-all"
-            >
-              Explore Solutions
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05, y: -4 }}
-              whileTap={{ scale: 0.95 }}
-              animate={{
-                y: [0, -6, 0],
-              }}
-              transition={{
-                y: {
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5,
-                },
-              }}
-              className="px-10 py-5 glass hover:bg-white/10 rounded-full font-bold flex items-center justify-center transition-all"
-            >
-              Watch Showreel
-            </motion.button>
-          </motion.div>
         </motion.div>
       </div>
 

@@ -1,5 +1,6 @@
 import React from "react";
-import { motion, useScroll, useSpring } from "motion/react";
+import Globe from "react-globe.gl";
+import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
 
 const Container = ({ children, className = "", isActive, ...props }: { children: React.ReactNode, className?: string, isActive?: boolean, [key: string]: any }) => {
     const { scrollYProgress } = useScroll();
@@ -20,22 +21,22 @@ const Container = ({ children, className = "", isActive, ...props }: { children:
     );
 };
 
-const Heading = ({ children, gradient = false }: { children: React.ReactNode, gradient?: boolean }) => (
+const Heading = ({ children, gradient = false, className = "" }: { children: React.ReactNode, gradient?: boolean, className?: string }) => (
     <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className={`text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-8 ${gradient ? 'text-gradient' : ''}`}
+        className={`text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-8 ${gradient ? 'text-gradient' : ''} ${className}`}
     >
         {children}
     </motion.h2>
 );
 
-const SubHeading = ({ children }: { children: React.ReactNode }) => (
+const SubHeading = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
     <motion.div
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
-        className="flex items-center gap-4 mb-6"
+        className={`flex items-center gap-4 mb-6 ${className}`}
     >
         <div className="h-px w-12 bg-brand-cyan" />
         <span className="text-brand-cyan font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">{children}</span>
@@ -48,7 +49,7 @@ export const AboutUs = ({ ...props }) => (
         <SubHeading>About Us</SubHeading>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-                <Heading>Empowering Our Clients Amidst a Digital Revolution</Heading>
+                <Heading>Empowering success amidst a digital revolution</Heading>
                 <p className="text-xl text-white/60 font-light leading-relaxed">
                     Software division is at the forefront of this mission, offering a comprehensive suite of services designed to address the evolving needs of healthcare organizations worldwide. We empower our clients to stay ahead in an increasingly digital landscape.
                 </p>
@@ -118,47 +119,115 @@ export const Expertise = () => (
 // New Intro Sections from PDF
 
 // 3. Software Team
-export const SoftwareTeam = () => (
-    <Container>
-        <SubHeading>Software Team</SubHeading>
-        <Heading gradient>RMT Software Engineering Team</Heading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {[
-                { initial: "W", name: "Wajahat Ali Khan", role: "Software Application Manager" },
-                { initial: "I", name: "Istafa Malik", role: "Software Development Manager" },
-                { initial: "M", name: "M. Umer", role: "Software Compliance Manager" },
-                { initial: "M", name: "M. Amir Jamshaid", role: "Software AI Manager" }
-            ].map((member, i) => (
-                <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="glass-dark p-6 rounded-3xl border border-white/10 text-center group hover:border-brand-cyan/50 transition-all duration-500"
-                >
-                    <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <span className="text-xl md:text-2xl font-bold text-brand-cyan">{member.initial}</span>
+export const SoftwareTeam = () => {
+    const [activeIdx, setActiveIdx] = React.useState<number | null>(null);
+
+    return (
+        <Container>
+            <SubHeading>Software Team</SubHeading>
+            <Heading gradient>RMT Software Engineering Team</Heading>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                {[
+                    { image: "WAK.jpg", name: "Wajahat Ali Khan", role: "Head Of Software Department" },
+                    { image: "Istafa.png", name: "Istafa Malik", role: "Software Development Manager" },
+                    { image: "M.Umer.png", name: "M. Umer", role: "Software Compliance Manager" },
+                    { image: "M.Amir.jpg", name: "M. Amir Jamshaid", role: "AI Software Manager" }
+                ].map((member, i) => (
+                    <motion.div
+                        key={i}
+                        onClick={() => setActiveIdx(activeIdx === i ? null : i)}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="glass-dark p-6 rounded-3xl border border-white/10 text-center group hover:border-brand-cyan/30 transition-all duration-500 cursor-pointer"
+                    >
+                        <div className="w-32 h-32 md:w-44 md:h-44 mx-auto mb-4 rounded-full bg-brand-cyan/10 border-2 border-brand-cyan/20 overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:border-brand-cyan/50 transition-all duration-500 shadow-[0_0_15px_rgba(0,223,216,0.1)]">
+                            <img
+                                src={`/assets/${member.image}`}
+                                alt={member.name}
+                                className={`w-full h-full object-cover transition-all duration-700 ${activeIdx === i ? 'grayscale-0 opacity-100 scale-110' : 'grayscale opacity-70 group-hover:grayscale-[30%] group-hover:opacity-100'}`}
+                            />
+                        </div>
+                        <h3 className="text-base md:text-lg font-bold text-white group-hover:text-brand-cyan transition-colors">{member.name}</h3>
+                        <p className="text-xs md:text-sm text-white/50">{member.role}</p>
+                    </motion.div>
+                ))}
+            </div>
+        </Container>
+    );
+};
+
+// CEO Intro Slide
+export const CEOIntro = () => {
+    const [isActive, setIsActive] = React.useState(false);
+
+    return (
+        <Container>
+            <SubHeading>LEADERSHIP</SubHeading>
+            <Heading gradient>Chief Executive Officer</Heading>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <div className="md:col-span-5 lg:col-span-4 relative group max-w-[260px] md:max-w-[300px] mx-auto w-full">
+                    <div
+                        className="relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] lg:aspect-[3/4] bg-[#0a0a0a] cursor-pointer shadow-[0_0_20px_rgba(0,223,216,0.05)] group-hover:shadow-[0_0_30px_rgba(0,223,216,0.15)] transition-shadow duration-500"
+                        onClick={() => setIsActive(!isActive)}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10" />
+                        <img
+                            src="/assets/dr.murtaza.jpg"
+                            alt="Prof Dr Murtaza Najabat Ali"
+                            className={`w-full h-full object-cover transition-all duration-700 ${isActive ? 'grayscale-0 opacity-100 scale-105' : 'grayscale opacity-80 group-hover:grayscale-[30%] group-hover:opacity-100'}`}
+                        />
+                        <div className="absolute bottom-6 left-6 right-6 z-20">
+                            <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">Prof Dr Murtaza Najabat Ali</h3>
+                            <div className="h-px w-12 bg-brand-cyan my-3" />
+                            <p className="text-brand-cyan font-bold tracking-widest text-[10px] uppercase mb-1">CEO & Co-Founder</p>
+                            <p className="text-white/60 font-mono text-[9px] tracking-widest uppercase">Revive Medical Technologies Inc</p>
+                        </div>
                     </div>
-                    <h3 className="text-base md:text-lg font-bold text-white group-hover:text-brand-cyan transition-colors">{member.name}</h3>
-                    <p className="text-xs md:text-sm text-white/50">{member.role}</p>
-                </motion.div>
-            ))}
-        </div>
-    </Container>
-);
+                </div>
+                <div className="md:col-span-7 lg:col-span-8 px-4 lg:px-0">
+                    <div className="space-y-6 md:space-y-8">
+                        {[
+                            "Recipient of Mandate from PM Office of Pakistan",
+                            "Founding CEO of Pakistan 1st State-owned Medical Device Industry (N-ovative Health Technologies)",
+                            "Founding Director of Medical Devices Development Center (A Center of Excellence) Pakistan",
+                            "20+ Years of Experience in Medical Device Design, Development, Production, Licensing and Technology Transfer",
+                            "Founding HoD and Professor at NUST University Pakistan"
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.1 + 0.2 }}
+                                className="flex gap-4 md:gap-6 group"
+                            >
+                                <div className="h-2 w-2 mt-2.5 rounded-full bg-white/20 group-hover:bg-brand-cyan/80 group-hover:scale-150 transition-all duration-500 shrink-0 shadow-[0_0_10px_rgba(0,223,216,0)] group-hover:shadow-[0_0_10px_rgba(0,223,216,0.5)]" />
+                                <p className="text-lg md:text-xl text-white/70 font-light leading-relaxed group-hover:text-white transition-colors">
+                                    {item}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </Container>
+    );
+};
 
 // 4. RMT Background
 export const RMTBackground = () => (
     <Container>
-        <SubHeading>RMT Background</SubHeading>
+        <SubHeading>BACKGROUND OF RMT</SubHeading>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <div>
-                <Heading gradient>Pioneering Healthcare Innovation Since 2004</Heading>
+                <Heading gradient>Our Legacy</Heading>
                 <div className="space-y-6 md:space-y-8 mt-6 md:mt-8">
                     {[
-                        { color: "brand-cyan", text: "Rich History of Setting up Pakistan's 1st State-owned Medical Device Industry (N-ovative Health Technologies)." },
+                        { color: "brand-cyan", text: "Rich history of setting up Pakistan's 1st State-owned Medical Device Industry." },
                         { color: "brand-blue", text: "Pioneer in the R&D, Production and Licensing of Medical Devices and Healthcare Technologies in Pakistan." },
-                        { color: "white/20", text: "Cross functional RMT Team has been involved for the last 02 decades in R&D, Production and Regulatory Approvals." }
+                        { color: "white/20", text: "Involved for the last 02 decades in R&D of Medical Devices / Healthcare Technologies." },
+                        { color: "brand-cyan", text: "Involved in Production of Medical Devices / Healthcare Technologies." },
+                        { color: "brand-blue", text: "Involved in Regulatory Approvals of Medical Devices / Healthcare Technologies." }
                     ].map((item, i) => (
                         <div key={i} className="flex gap-4 md:gap-6">
                             <div className={`h-10 md:h-12 w-1 bg-${item.color} rounded-full shrink-0`} />
@@ -169,14 +238,14 @@ export const RMTBackground = () => (
                     ))}
                 </div>
             </div>
-            <div className="relative hidden lg:block">
-                <div className="absolute inset-0 bg-brand-cyan/20 blur-[100px] rounded-full" />
-                <div className="relative glass-dark p-1 rounded-[3rem] border border-white/10 overflow-hidden aspect-video flex items-center justify-center">
-                    <div className="text-brand-cyan/20 text-9xl font-bold opacity-10">RMT</div>
+            <div className="relative group lg:h-full flex items-center">
+                <div className="glass-dark rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden w-full aspect-square md:aspect-video lg:aspect-auto lg:h-[80%] flex items-center justify-center relative">
+                    <img src="/assets/leagacy.png" alt="RMT Legacy" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                     <motion.div
-                        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+                        animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
                         transition={{ duration: 5, repeat: Infinity }}
-                        className="absolute inset-0 border-2 border-brand-cyan/30 rounded-[3rem]"
+                        className="absolute inset-4 border border-brand-cyan/20 rounded-[1.5rem] md:rounded-[2.5rem] pointer-events-none"
                     />
                 </div>
             </div>
@@ -194,7 +263,7 @@ export const OurCompany = () => (
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full">
             {[
-                { title: "R&D Wing", desc: "Advanced labs for biomaterials, software, AI, and medical device design." },
+                { title: "R & D Wing", desc: "Advanced labs for biomaterials, software, AI, and medical device design." },
                 { title: "Production Wing", desc: "ISO Class 5, 7 and 8 cleanrooms for medical grade manufacturing." },
                 { title: "Regulatory Wing", desc: "Expert approvals including FDA, CE, UKCA, and SFDA." }
             ].map((wing, i) => (
@@ -217,12 +286,14 @@ export const PakFacility = () => (
     <Container>
         <SubHeading>Off-Shore Facility</SubHeading>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-center">
-            <div className="order-2 lg:order-1 relative">
-                <div className="glass-dark rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="text-center p-8 md:p-12">
-                        <div className="text-brand-cyan text-4xl md:text-6xl mb-4 md:mb-6">🇵🇰</div>
-                        <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">Islamabad</h3>
-                        <p className="text-brand-cyan/60 font-mono text-xs md:text-sm tracking-widest">Off-shore R&D and Production</p>
+            <div className="order-2 lg:order-1 relative group">
+                <div className="glass-dark rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden aspect-video lg:aspect-square flex items-center justify-center relative">
+                    <img src="/assets/pak-facility.png" alt="Pakistan Facility" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 text-left pointer-events-none">
+                        <div className="text-brand-cyan text-3xl md:text-5xl mb-2 lg:mb-4">🇵🇰</div>
+                        <h3 className="text-xl md:text-3xl font-bold text-white mb-1">Islamabad</h3>
+                        <p className="text-brand-cyan/80 font-mono text-xs tracking-widest uppercase">R&D and Production</p>
                     </div>
                 </div>
             </div>
@@ -250,7 +321,7 @@ export const USFacility = () => (
         <SubHeading>Head Office</SubHeading>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-center">
             <div>
-                <Heading gradient>United States Facility</Heading>
+                <Heading gradient>United States Headquarters</Heading>
                 <p className="text-lg md:text-xl text-white/60 font-light leading-relaxed mb-6 md:mb-8">
                     Our global headquarters in Minnesota oversees our international operations, regulatory compliance, and strategic partnerships.
                 </p>
@@ -263,18 +334,262 @@ export const USFacility = () => (
                     </p>
                 </div>
             </div>
-            <div className="relative">
-                <div className="glass-dark rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="text-center p-8 md:p-12">
-                        <div className="text-brand-blue text-4xl md:text-6xl mb-4 md:mb-6">🇺🇸</div>
-                        <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">Minnesota</h3>
-                        <p className="text-brand-blue/60 font-mono text-xs md:text-sm tracking-widest">Global Headquarters</p>
+            <div className="relative group">
+                <div className="glass-dark rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden aspect-video lg:aspect-square flex items-center justify-center relative">
+                    <img src="/assets/us-facility.png" alt="United States Facility" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 text-left pointer-events-none">
+                        <div className="text-brand-blue text-3xl md:text-5xl mb-2 lg:mb-4">🇺🇸</div>
+                        <h3 className="text-xl md:text-3xl font-bold text-white mb-1">Minnesota</h3>
+                        <p className="text-brand-blue/80 font-mono text-xs tracking-widest uppercase">Global Headquarters</p>
                     </div>
                 </div>
             </div>
         </div>
     </Container>
 );
+
+// Animated Map Global Locations
+// Animated Map Global Locations
+export const AnimatedMap = () => {
+    const globeEl = React.useRef<any>(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const [dimensions, setDimensions] = React.useState({ width: 800, height: 400 });
+    const [show2DMap, setShow2DMap] = React.useState(false);
+    const [renderGlobeHTML, setRenderGlobeHTML] = React.useState(false);
+
+    React.useEffect(() => {
+        if (!containerRef.current) return;
+        const updateDimensions = () => {
+            if (containerRef.current) {
+                setDimensions({
+                    width: containerRef.current.clientWidth,
+                    height: containerRef.current.clientHeight
+                });
+            }
+        };
+        updateDimensions();
+        // Give it a small delay to ensure container is fully rendered before capturing dimension
+        const timer = setTimeout(updateDimensions, 100);
+        window.addEventListener('resize', updateDimensions);
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', updateDimensions);
+        };
+    }, [show2DMap]); // Re-measure when toggling views
+
+    React.useEffect(() => {
+        if (!show2DMap) {
+            if (globeEl.current) {
+                globeEl.current.controls().autoRotate = true;
+                globeEl.current.controls().autoRotateSpeed = 0.8;
+                globeEl.current.controls().enableZoom = false;
+                // Set initial POV so both locations are visible
+                globeEl.current.pointOfView({ lat: 38, lng: -10, altitude: 2 }, 0);
+            }
+            // Delay rendering HTML elements slightly to ensure globe is fully mounted
+            const htmlTimer = setTimeout(() => setRenderGlobeHTML(true), 200);
+            return () => clearTimeout(htmlTimer);
+        } else {
+            setRenderGlobeHTML(false);
+        }
+    }, [dimensions.width, show2DMap]);
+
+    // Marker data
+    const gData = [
+        { lat: 45.6083, lng: -94.2069, label: 'Head Office (USA)', color: '#0070f3' }, // Minnesota
+        { lat: 33.6844, lng: 73.0479, label: 'R&D Facility (PK)', color: '#00dfd8' }  // Islamabad
+    ];
+
+    // Arc data
+    // Two directional arcs to make the animation more dense/cinematic
+    const arcsData = [
+        {
+            startLat: 45.6083, startLng: -94.2069,
+            endLat: 33.6844, endLng: 73.0479,
+        },
+        {
+            startLat: 33.6844, startLng: 73.0479,
+            endLat: 45.6083, endLng: -94.2069,
+        }
+    ];
+
+    return (
+        <Container className="text-center items-center">
+            <SubHeading>OUR LOCATIONS</SubHeading>
+            <Heading gradient>Global Presence</Heading>
+            <p className="text-lg md:text-xl text-white/60 font-light leading-relaxed mb-12 max-w-2xl mx-auto">
+                Bridging innovation across continents with our 3D scalable architecture.
+            </p>
+
+            <AnimatePresence mode="wait">
+                {!show2DMap ? (
+                    <motion.div
+                        key="globe-view"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        ref={containerRef}
+                        className="relative w-full h-[40vh] md:h-[50vh] max-w-4xl mx-auto mt-6 mb-16 rounded-[3rem] overflow-hidden glass-dark border border-white/10 shadow-[0_0_50px_rgba(0,112,243,0.15)] bg-black group cursor-pointer"
+                        onClick={() => setShow2DMap(true)}
+                    >
+                        {/* Fallback glow behind globe */}
+                        <div className="absolute inset-x-0 bottom-0 top-1/2 bg-brand-cyan/20 blur-[100px] z-0 pointer-events-none" />
+
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-bounce opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className="bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 px-6 py-2 rounded-full backdrop-blur-sm text-sm font-semibold tracking-wider group-hover:bg-brand-cyan group-hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,223,216,0.2)]">
+                                CLICK GLOBE TO EXPAND MAP
+                            </div>
+                        </div>
+
+                        <div className="absolute inset-0 z-10 pointer-events-none">
+                            <Globe
+                                ref={globeEl}
+                                width={dimensions.width}
+                                height={dimensions.height}
+                                globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+                                bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+                                backgroundColor="rgba(0,0,0,0)"
+
+                                // Arcs configuration
+                                arcsData={arcsData}
+                                arcColor={() => ['#0070f3', '#00dfd8']}
+                                arcDashLength={0.4}
+                                arcDashGap={0.2}
+                                arcDashInitialGap={() => Math.random()}
+                                arcDashAnimateTime={2000}
+                                arcStroke={1.5}
+
+                                // Marker dots
+                                htmlElementsData={renderGlobeHTML ? gData : []}
+                                htmlElement={(d: any) => {
+                                    const el = document.createElement('div');
+                                    el.innerHTML = `
+                                        <div style="display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%); pointer-events: none;">
+                                            <div style="color: ${d.color}; font-weight: bold; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; white-space: nowrap; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 6px; border: 1px solid ${d.color}40; margin-bottom: 8px; backdrop-filter: blur(4px);">
+                                                ${d.label}
+                                            </div>
+                                            <div style="width: 14px; height: 14px; border-radius: 50%; background-color: ${d.color}; box-shadow: 0 0 20px ${d.color}, inset 0 0 5px #fff; border: 2px solid white;"></div>
+                                        </div>
+                                    `;
+                                    return el;
+                                }}
+                            />
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="2d-map-view"
+                        initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="relative w-full aspect-square md:aspect-video max-w-7xl mx-auto mt-6 mb-16 rounded-[3rem] glass-dark border border-white/10 shadow-[0_0_50px_rgba(0,223,216,0.15)] bg-black flex items-center justify-center p-4 md:p-8"
+                    >
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setShow2DMap(false); }}
+                            className="absolute z-50 top-6 right-6 md:top-8 md:right-8 bg-black/60 border border-white/20 text-white/70 hover:text-brand-cyan hover:border-brand-cyan rounded-full px-6 py-2.5 backdrop-blur-md transition-all duration-300 font-bold uppercase tracking-widest text-xs md:text-sm hover:scale-105 shadow-lg"
+                        >
+                            Back to 3D Globe
+                        </button>
+
+                        <div className="absolute inset-x-0 bottom-0 top-1/2 bg-brand-cyan/20 blur-[120px] z-0 pointer-events-none" />
+
+                        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                            <img src="/world-map.svg" alt="World Map" className="w-[90%] md:w-[85%] h-auto object-contain opacity-[0.4] invert drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
+                        </div>
+
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stopColor="#0070f3" stopOpacity={0.2} />
+                                    <stop offset="50%" stopColor="#00dfd8" />
+                                    <stop offset="100%" stopColor="#0070f3" stopOpacity={0.2} />
+                                </linearGradient>
+                                <linearGradient id="glow-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stopColor="#00dfd8" stopOpacity={0.1} />
+                                    <stop offset="100%" stopColor="#0070f3" />
+                                </linearGradient>
+                            </defs>
+
+                            {/* Multiple animated global connections highlighting the network */}
+                            {[
+                                { d: "M 25% 40% Q 50% 10% 70% 45%", duration: 3, delay: 0 },
+                                { d: "M 25% 40% Q 30% 60% 45% 75%", duration: 4, delay: 1 },
+                                { d: "M 70% 45% Q 75% 65% 85% 75%", duration: 3.5, delay: 0.5 },
+                                { d: "M 50% 35% Q 60% 25% 70% 45%", duration: 2.5, delay: 1.5 },
+                            ].map((path, idx) => (
+                                <g key={idx}>
+                                    <motion.path
+                                        d={path.d}
+                                        fill="none"
+                                        stroke={`url(#${idx % 2 === 0 ? 'gradient-line' : 'glow-line'})`}
+                                        strokeWidth="2"
+                                        strokeDasharray="4 6"
+                                        initial={{ pathLength: 0, opacity: 0 }}
+                                        whileInView={{ pathLength: 1, opacity: 0.6 }}
+                                        transition={{ duration: 2, ease: "easeInOut", delay: path.delay }}
+                                    />
+                                    <motion.circle r={idx === 0 ? "3" : "2"} fill="#fff" filter="drop-shadow(0 0 5px #fff)">
+                                        <animateMotion path={path.d} dur={`${path.duration}s`} repeatCount="indefinite" />
+                                    </motion.circle>
+                                </g>
+                            ))}
+                        </svg>
+
+                        {/* US Marker */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.5, type: "spring" }}
+                            className="absolute top-[38%] left-[23%] md:left-[22%] -translate-x-1/2 -translate-y-1/2 flex items-center z-30 group"
+                        >
+                            <div className="absolute right-full mr-2 md:mr-4 flex-row items-center whitespace-nowrap hidden sm:flex">
+                                <div className="text-right mr-2 md:mr-4 bg-black/60 p-3 lg:p-4 rounded-xl border border-white/10 backdrop-blur-md shadow-[0_0_30px_rgba(0,112,243,0.15)]">
+                                    <p className="text-brand-cyan font-bold text-sm md:text-xl lg:text-2xl leading-tight mb-1">Head Office</p>
+                                    <p className="text-white text-[10px] md:text-xs lg:text-sm leading-snug font-medium text-white/80 italic">in Saint Cloud<br />Edgewater Business Centre<br />Sartell, Minnesota, USA</p>
+                                </div>
+                                <div className="w-4 md:w-16 h-px bg-brand-cyan" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan -ml-1 shadow-[0_0_10px_#00dfd8]" />
+                            </div>
+
+                            <div className="relative flex items-center justify-center">
+                                <motion.div animate={{ scale: [1, 2.5, 1], opacity: [0.6, 0, 0.6] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-[-6px] border border-brand-cyan rounded-full" />
+                                <div className="w-5 h-5 bg-red-600 rounded-full relative z-10 shadow-[0_0_20px_rgba(239,68,68,0.8)] border-[3px] border-white flex items-center justify-center group-hover:scale-125 transition-transform">
+                                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Pak Marker */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.8, type: "spring" }}
+                            className="absolute top-[48%] md:top-[45%] left-[66%] md:left-[68%] -translate-x-1/2 -translate-y-1/2 flex items-center z-30 group"
+                        >
+                            <div className="relative flex items-center justify-center">
+                                <motion.div animate={{ scale: [1, 2.5, 1], opacity: [0.6, 0, 0.6] }} transition={{ duration: 2, repeat: Infinity, delay: 1 }} className="absolute inset-[-6px] border border-brand-cyan rounded-full" />
+                                <div className="w-5 h-5 bg-red-600 rounded-full relative z-10 shadow-[0_0_20px_rgba(239,68,68,0.8)] border-[3px] border-white flex items-center justify-center group-hover:scale-125 transition-transform">
+                                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <div className="absolute left-full ml-2 md:ml-4 flex-row items-center whitespace-nowrap hidden sm:flex">
+                                <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan -mr-1 shadow-[0_0_10px_#00dfd8]" />
+                                <div className="w-4 md:w-16 h-px bg-brand-cyan" />
+                                <div className="text-left ml-2 md:ml-4 bg-black/60 p-3 lg:p-4 rounded-xl border border-white/10 backdrop-blur-md shadow-[0_0_30px_rgba(0,223,216,0.15)]">
+                                    <p className="text-brand-cyan font-bold text-sm md:text-xl lg:text-2xl leading-tight mb-1">Off-shore R&D and<br />Production Facility</p>
+                                    <p className="text-white text-[10px] md:text-xs lg:text-sm leading-snug font-bold">in Islamabad Pakistan</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </Container>
+    );
+};
 
 // 8. Services Intro
 export const ServicesIntro = () => (
@@ -287,235 +602,51 @@ export const ServicesIntro = () => (
     </Container>
 );
 
-// 4. AI Integration
-export const AIIntegration = ({ slideActive }: { slideActive?: boolean }) => {
-    const aiServices = [
-        {
-            title: "Clinical Intelligence",
-            desc: "Advanced clinical decision support leveraging ML models to provide evidence-based insights.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
-                    <path d="M12 8v4l3 3" />
-                </svg>
-            )
-        },
-        {
-            title: "Automatic Workflows",
-            desc: "Streamline administrative and clinical processes to reduce manual overhead and improve efficiency.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                </svg>
-            )
-        },
-        {
-            title: "AI Assistants",
-            desc: "Virtual health assistants providing preliminary triage and personalized patient engagement continuously.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                </svg>
-            )
-        },
-        {
-            title: "System Checker",
-            desc: "Automated real-time monitoring of medical systems for predictable anomalies and compliance.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-            )
-        },
-        {
-            title: "Analytics",
-            desc: "Predictive modeling and comprehensive data analysis for actionable healthcare insights.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <path d="M18 20V10M12 20V4M6 20v-6" />
-                </svg>
-            )
-        },
-        {
-            title: "Auto Scheduler",
-            desc: "Intelligent resource allocation and patient scheduling to optimize clinic and hospital workflows.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-            )
-        },
-        {
-            title: "Predictive & Preventive",
-            desc: "Forecast potential health risks and implement proactive care measures for better patient outcomes.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                </svg>
-            )
-        }
+// 12. Products Intro
+export const ProductsIntro = () => (
+    <Container className="text-center items-center">
+        <SubHeading>PRODUCTS</SubHeading>
+        <Heading gradient>Innovative Software Solutions for Modern Healthcare</Heading>
+        <p className="max-w-4xl text-lg md:text-xl text-white/50 font-light leading-relaxed">
+            Our suite of specialized products empowers medical professionals, streamlines clinical workflows, and enhances patient engagement. From care management software to advanced remote diagnostics, our platforms are engineered to meet the highest regulatory standards while delivering exceptional performance and reliability.
+        </p>
+    </Container>
+);
+
+export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => void }) => {
+    const categories = [
+        { title: "Artificial Intelligence", subtitle: "Advanced Analytics", icon: "🧠", color: "cyan" },
+        { title: "App Development", subtitle: "Platform Solutions", icon: "📱", color: "blue" },
+        { title: "Automation", subtitle: "Operational Efficiency", icon: "⚡", color: "cyan" },
+        { title: "Infrastructure", subtitle: "Lifecycle Management", icon: "🏗️", color: "blue" }
     ];
 
     return (
-        <Container className="w-full mx-auto relative px-4 md:px-6">
-            {/* Awesome glowing background effect - Hide on small mobile to avoid clutter */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
-                <motion.div
-                    animate={{ rotate: 360, scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-brand-cyan/10 rounded-full"
-                />
+        <Container className="justify-center py-4">
+            <div className="text-center mb-6 md:mb-10">
+                <SubHeading className="text-[10px] md:text-xs">OUR EXPERTISE</SubHeading>
+                <Heading gradient className="text-3xl md:text-5xl">Medical Solutions</Heading>
             </div>
-
-            <div className="relative z-10 w-full">
-                <SubHeading>AI INTEGRATION</SubHeading>
-                <div className="flex flex-wrap justify-center items-stretch gap-4 w-full mt-4 md:mt-8">
-                    {aiServices.map((item, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={slideActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                            transition={{ delay: 0.2 + i * 0.05, duration: 0.6 }}
-                            className="group relative w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1rem)] min-w-[160px] max-w-[280px] h-[180px] md:h-[220px] perspective-[1000px] cursor-pointer"
-                        >
-                            <div className="relative w-full h-full transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[0_0_20px_rgba(0,223,216,0.05)] hover:shadow-[0_0_30px_rgba(0,223,216,0.15)] rounded-2xl">
-
-                                {/* FRONT OF CARD */}
-                                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] rounded-[1rem] bg-white/5 border border-white/5 overflow-hidden">
-                                    <div className="absolute inset-[1px] bg-[#0a0a0a] rounded-[calc(1rem-1px)] z-0" />
-
-                                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 text-center">
-                                        <div className="mb-3 md:mb-4 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-brand-cyan group-hover:text-white group-hover:bg-brand-cyan/20 transition-all duration-500">
-                                            <div className="scale-75 md:scale-100">
-                                                {item.icon}
-                                            </div>
-                                        </div>
-                                        <h3 className="text-[10px] md:text-xs font-bold tracking-widest text-white/70 group-hover:text-white transition-colors duration-500 uppercase px-2 leading-tight">
-                                            {item.title}
-                                        </h3>
-                                    </div>
-                                </div>
-
-                                {/* BACK OF CARD */}
-                                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[1rem] bg-gradient-to-br from-[#0a0a0a] to-[#041a1a] border border-brand-cyan/30 flex flex-col items-center justify-center p-4 md:p-6 text-center shadow-[0_0_30px_rgba(0,223,216,0.15)]">
-                                    <h4 className="text-brand-cyan font-bold uppercase tracking-widest text-[9px] md:text-[10px] mb-2 md:mb-3">{item.title}</h4>
-                                    <p className="text-white/60 text-[10px] md:text-xs leading-relaxed font-light">
-                                        {item.desc}
-                                    </p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </Container>
-    );
-};
-
-// 10. Medicine & Management
-export const MedicineManagement = () => {
-    const managementServices = [
-        {
-            title: "Medical Research & Recommendation",
-            desc: "Advanced AI algorithms for clinical research support and data synthesis.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 md:w-6 md:h-6">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                </svg>
-            )
-        },
-        {
-            title: "Remote Patient Monitoring Dashboard",
-            desc: "Real-time vitals tracking and alerting system for proactive patient care.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 md:w-6 md:h-6">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                    <line x1="8" y1="21" x2="16" y2="21" />
-                    <line x1="12" y1="17" x2="12" y2="21" />
-                </svg>
-            )
-        },
-        {
-            title: "Medical Imaging Analysis & Management",
-            desc: "AI-powered diagnostic imaging interpretation and workflow optimization.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 md:w-6 md:h-6">
-                    <path d="M15 3h6v6" />
-                    <path d="M9 21H3v-6" />
-                    <path d="M21 3l-7 7" />
-                    <path d="M3 21l7-7" />
-                    <circle cx="12" cy="12" r="3" />
-                </svg>
-            )
-        },
-        {
-            title: "Drug Discovery & Development",
-            desc: "Accelerating pharmaceutical innovation with machine learning models.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 md:w-6 md:h-6">
-                    <path d="M4.5 12.5l10-10a3.53 3.53 0 0 1 5 5l-10 10a3.53 3.53 0 0 1-5-5z" />
-                    <path d="M9 6.5l5 5" />
-                </svg>
-            )
-        },
-        {
-            title: "AI-enabled Medical Billing",
-            desc: "Automated coding and claims processing to reduce operational overhead.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 md:w-6 md:h-6">
-                    <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" />
-                    <path d="M4 6v12c0 1.1.9 2 2 2h14v-4" />
-                    <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
-                </svg>
-            )
-        },
-        {
-            title: "Appointment Management Software",
-            desc: "Intelligent scheduling and patient flow management for modern clinics.",
-            icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 md:w-6 md:h-6">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-            )
-        }
-    ];
-
-    return (
-        <Container>
-            <SubHeading>MEDICINE & MANAGEMENT</SubHeading>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {managementServices.map((item, i) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-6xl">
+                {categories.map((cat, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.1 }}
-                        className="group relative p-[1px] rounded-[2rem] overflow-hidden bg-white/5"
+                        whileHover={{ y: -8, scale: 1.02 }}
+                        onClick={() => onSelect(i + 1)}
+                        className="group relative cursor-pointer flex flex-col h-full"
                     >
-                        <div className="relative h-full w-full bg-[#0a0a0a] rounded-[calc(2rem-1px)] p-6 md:p-8 flex flex-col z-10 transition-all duration-500 group-hover:bg-black/80">
-                            <div className="absolute top-4 right-8 text-6xl md:text-8xl font-display font-bold text-white/[0.02] group-hover:text-brand-blue/[0.05] transition-colors duration-500 pointer-events-none select-none">
-                                0{i + 1}
-                            </div>
-
-                            <div className="mb-4 md:mb-6 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue border border-brand-blue/20 group-hover:bg-brand-blue group-hover:text-white group-hover:border-brand-blue/50 transition-all duration-500 shadow-lg">
-                                {item.icon}
-                            </div>
-
-                            <div className="relative z-10">
-                                <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4 group-hover:text-brand-cyan transition-colors duration-300">
-                                    {item.title}
-                                </h3>
-                                <p className="text-white/40 text-xs md:text-sm leading-relaxed mb-0 sm:h-0 sm:opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-2 md:group-hover:mt-4 transition-all duration-500">
-                                    {item.desc}
-                                </p>
+                        <div className={`absolute -inset-1 bg-brand-${cat.color}/20 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300`} />
+                        <div className="relative h-full glass-dark border border-white/5 rounded-[1.5rem] p-6 md:p-8 flex flex-col items-center text-center group-hover:border-brand-cyan/30 transition-all duration-300">
+                            <div className="text-3xl md:text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{cat.icon}</div>
+                            <h3 className="text-lg font-bold mb-1 group-hover:text-brand-cyan transition-colors">{cat.title}</h3>
+                            <p className="text-[10px] md:text-xs text-white/40 uppercase tracking-widest mb-6">{cat.subtitle}</p>
+                            
+                            <div className="mt-auto px-4 py-1.5 rounded-full border border-white/10 text-[9px] md:text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand-cyan group-hover:text-black transition-all">
+                                Explore Detail
                             </div>
                         </div>
                     </motion.div>
@@ -525,27 +656,118 @@ export const MedicineManagement = () => {
     );
 };
 
-// 11. Quality Assurance
-export const QualityAssurance = () => (
-    <Container>
-        <SubHeading>QUALITY ASSURANCE</SubHeading>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {[
-                "Software Testing Lifecycle", "Security Testing", "Software Quality Assurance",
-                "API Testing", "Manual & Automated Testing", "Test Planning & Strategy"
-            ].map((item, i) => (
+export const CategoryDetail = ({ title, items, categoryNum }: { title: string, items: { title: string, desc: string }[], categoryNum: string }) => (
+    <Container className="justify-center py-4">
+        <div className="flex flex-col md:flex-row md:items-end gap-3 md:gap-5 mb-6 md:mb-8">
+            <motion.div 
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 0.2, x: 0 }}
+                className="text-5xl md:text-7xl font-bold text-brand-cyan leading-none"
+            >
+                {categoryNum}
+            </motion.div>
+            <div className="pb-1">
+                <SubHeading className="text-[10px] md:text-xs">SERVICE CATEGORY</SubHeading>
+                <Heading gradient className="text-2xl md:text-4xl leading-tight">{title}</Heading>
+            </div>
+        </div>
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 ${items.length > 3 ? 'lg:grid-cols-3' : 'md:grid-cols-3'} max-h-[70vh] items-stretch`}>
+            {items.map((item, i) => (
                 <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    className="glass p-4 md:p-6 rounded-xl md:rounded-2xl border border-white/5 flex items-center gap-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05 }}
+                    whileHover={{ 
+                        y: -8,
+                        scale: 1.02,
+                        transition: { duration: 0.2 }
+                    }}
+                    className="group relative flex flex-col h-full"
                 >
-                    <div className="text-[10px] md:text-xs font-mono text-brand-blue font-bold opacity-50">0{i + 1}</div>
-                    <span className="text-xs md:text-sm font-medium">{item}</span>
+                    <div className="absolute -inset-1 bg-brand-cyan/10 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <div className="relative h-full flex flex-col bg-[#0a0a0a]/90 backdrop-blur-sm rounded-[1.5rem] p-6 md:p-8 z-10 border border-white/5 transition-all duration-300 group-hover:border-brand-cyan/20 group-hover:shadow-[0_0_30px_rgba(0,223,216,0.1)]">
+                        {/* Compact Decorative Number */}
+                        <div className="absolute top-0 right-0 p-6 text-5xl font-bold text-white/[0.01] group-hover:text-brand-cyan/[0.03] transition-colors pointer-events-none">0{i + 1}</div>
+                        
+                        <div className="mb-4 w-10 h-10 flex items-center justify-center rounded-xl bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20 group-hover:bg-brand-cyan group-hover:text-black transition-all duration-500 shadow-lg relative overflow-hidden shrink-0">
+                            <span className="text-xs font-bold z-10">{i + 1}</span>
+                            <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-500" />
+                        </div>
+                        
+                        <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-brand-cyan transition-colors duration-300 leading-snug">
+                            {item.title}
+                        </h3>
+                        <p className="text-white/40 text-xs md:text-sm leading-relaxed group-hover:text-white/80 transition-colors flex-grow">
+                            {item.desc}
+                        </p>
+                        
+                        {/* Minimal accent */}
+                        <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                            <span className="text-[9px] uppercase tracking-widest font-bold text-brand-cyan/60">Module 0{i + 1}</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-brand-cyan/40" />
+                        </div>
+                    </div>
                 </motion.div>
             ))}
         </div>
     </Container>
+);
+
+// Detail Slides using the reusable component
+export const Cat1Details = () => (
+    <CategoryDetail
+        categoryNum="01"
+        title="Artificial Intelligence & Advanced Analytics"
+        items={[
+            { title: "Generative AI for Healthcare", desc: "Develops custom AI models to generate synthetic patient data, automate clinical documentation, or create patient education materials." },
+            { title: "AI-Powered Clinical Decision Support (CDS)", desc: "Builds intelligent systems that analyze patient data in real-time to provide clinicians with evidence-based diagnostic and treatment recommendations." },
+            { title: "Preventive & Predictive Health Analytics", desc: "Creates algorithms that analyze patient data to identify individuals at risk for specific conditions, enabling early intervention." },
+            { title: "Intelligent System Checker & Audit", desc: "Develops automated tools to continuously monitor software and data integrity, ensuring compliance and flagging anomalies." },
+            { title: "AI-Enabled Medical Billing & Coding", desc: "Automates the complex process of medical coding and billing to improve accuracy, reduce denials, and accelerate reimbursement." }
+        ]}
+    />
+);
+
+export const Cat2Details = () => (
+    <CategoryDetail
+        categoryNum="02"
+        title="Application & Platform Development"
+        items={[
+            { title: "Custom Medical Web Application Development", desc: "Builds secure, scalable, and user-friendly web-based platforms for clinical, administrative, or patient use." },
+            { title: "Medical Mobile App Development", desc: "Creates native and cross-platform mobile applications for patients, providers, and field researchers, focusing on usability and security." },
+            { title: "Remote Patient Monitoring (RPM) Solutions", desc: "Designs and develops comprehensive platforms, including patient-facing apps and provider dashboards, to track and manage patient health data remotely." },
+            { title: "Medical Imaging, Analysis & Management Systems", desc: "Builds software for the secure storage, viewing, annotation, and AI-powered analysis of medical images (like DICOM viewers)." },
+            { title: "Drug Discovery, Development & Management Platforms", desc: "Creates specialized software to manage research data, streamline clinical trials, and support the drug development lifecycle." }
+        ]}
+    />
+);
+
+export const Cat3Details = () => (
+    <CategoryDetail
+        categoryNum="03"
+        title="Operational Efficiency & Automation"
+        items={[
+            { title: "Intelligent Appointment & Resource Scheduler", desc: "Develops smart scheduling systems that optimize provider time, patient preferences, and resource allocation, including auto-scheduling features." },
+            { title: "Automated Clinical Workflow Orchestration", desc: "Creates software that automates routine administrative and clinical tasks (e.g., referral processing, lab order tracking) to improve efficiency." },
+            { title: "Medical Research & Recommendation Engines", desc: "Builds platforms that help researchers and clinicians quickly find relevant studies, guidelines, and clinical trial information." }
+        ]}
+    />
+);
+
+export const Cat4Details = () => (
+    <CategoryDetail
+        categoryNum="04"
+        title="Infrastructure & Lifecycle Management"
+        items={[
+            { title: "DevOps & Cloud Infrastructure for Healthcare", desc: "Provides services to automate software deployment, manage cloud infrastructure (AWS, Azure, GCP), and ensure high availability and scalability of your medical software." },
+            { title: "SaaS Enablement & Modernization", desc: "Helps transform traditional medical software into modern, scalable Software-as-a-Service (SaaS) models." },
+            { title: "Independent Quality Assurance (QA) & Validation", desc: "Offers comprehensive testing services for medical software, including functionality, security, performance, and compliance validation (IQ/OQ/PQ)." },
+            { title: "Ongoing Maintenance & Technical Support", desc: "Provides reliable, ongoing IT support, bug fixes, security patches, and performance monitoring for deployed medical software." }
+        ]}
+    />
 );
 
 // 12. Products Intro

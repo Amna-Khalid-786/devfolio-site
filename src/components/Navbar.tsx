@@ -2,8 +2,8 @@ import { motion } from "motion/react";
 
 const navItems = [
   { name: "Intro", index: 0 },
-  { name: "Services", index: 6 },
-  { name: "Product", index: 10 },
+  { name: "Services", index: 8 },
+  { name: "Product", index: 14 },
 ];
 
 const containerVariants = {
@@ -41,18 +41,18 @@ export default function Navbar({ currentSlide = 0, setCurrentSlide }: { currentS
             variants={itemVariants}
             whileHover={{ y: -2, scale: 1.05 }}
             className={`text-sm font-bold tracking-widest uppercase transition-colors relative group focus:outline-none ${
-              (item.name === "Intro" && currentSlide < 6) ||
-              (item.name === "Services" && currentSlide >= 6 && currentSlide < 10) ||
-              (item.name === "Product" && currentSlide >= 10)
+              (item.name === "Intro" && currentSlide < 8) ||
+              (item.name === "Services" && currentSlide >= 8 && currentSlide < 14) ||
+              (item.name === "Product" && currentSlide >= 14)
                 ? "text-brand-cyan drop-shadow-[0_0_8px_rgba(0,223,216,0.6)]" 
                 : "text-white/50 hover:text-white"
             }`}
           >
             {item.name}
             <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-cyan transition-all ${
-              ((item.name === "Intro" && currentSlide < 6) ||
-              (item.name === "Services" && currentSlide >= 6 && currentSlide < 10) ||
-              (item.name === "Product" && currentSlide >= 10)) ? "w-full shadow-[0_0_10px_rgba(0,223,216,1)]" : "w-0 group-hover:w-full"
+              ((item.name === "Intro" && currentSlide < 8) ||
+              (item.name === "Services" && currentSlide >= 8 && currentSlide < 14) ||
+              (item.name === "Product" && currentSlide >= 14)) ? "w-full shadow-[0_0_10px_rgba(0,223,216,1)]" : "w-0 group-hover:w-full"
             }`} />
           </motion.button>
         ))}
