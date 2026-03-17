@@ -399,11 +399,10 @@ export const AnimatedMap = () => {
     // Marker data
     const gData = [
         { lat: 45.6083, lng: -94.2069, label: 'Head Office (USA)', color: '#0070f3' }, // Minnesota
-        { lat: 33.6844, lng: 73.0479, label: 'R&D Facility (PK)', color: '#00dfd8' }  // Islamabad
+        { lat: 33.6844, lng: 73.0479, label: 'Off-shore R&D and Production Facility (Isb)', color: '#00dfd8' }  // Islamabad
     ];
 
     // Arc data
-    // Two directional arcs to make the animation more dense/cinematic
     const arcsData = [
         {
             startLat: 45.6083, startLng: -94.2069,
@@ -431,19 +430,18 @@ export const AnimatedMap = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         ref={containerRef}
-                        className="relative w-full h-[40vh] md:h-[50vh] max-w-4xl mx-auto mt-6 mb-16 rounded-[3rem] overflow-hidden glass-dark border border-white/10 shadow-[0_0_50px_rgba(0,112,243,0.15)] bg-black group cursor-pointer"
-                        onClick={() => setShow2DMap(true)}
+                        className="relative w-full h-[40vh] md:h-[50vh] max-w-4xl mx-auto mt-6 mb-16 rounded-[3rem] overflow-hidden glass-dark border border-white/10 shadow-[0_0_50px_rgba(0,112,243,0.15)] bg-black group"
                     >
                         {/* Fallback glow behind globe */}
                         <div className="absolute inset-x-0 bottom-0 top-1/2 bg-brand-cyan/20 blur-[100px] z-0 pointer-events-none" />
 
                         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-bounce opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <div className="bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 px-6 py-2 rounded-full backdrop-blur-sm text-sm font-semibold tracking-wider group-hover:bg-brand-cyan group-hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,223,216,0.2)]">
-                                CLICK GLOBE TO EXPAND MAP
+                            <div className="bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/50 px-6 py-2 rounded-full backdrop-blur-sm text-sm font-semibold tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(0,223,216,0.2)]">
+                                DRAG TO ROTATE • CLICK TO EXPAND
                             </div>
                         </div>
 
-                        <div className="absolute inset-0 z-10 pointer-events-none">
+                        <div className="absolute inset-0 z-10">
                             <Globe
                                 ref={globeEl}
                                 width={dimensions.width}
@@ -451,6 +449,8 @@ export const AnimatedMap = () => {
                                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
                                 bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
                                 backgroundColor="rgba(0,0,0,0)"
+                                
+                                onGlobeClick={() => setShow2DMap(true)}
 
                                 // Arcs configuration
                                 arcsData={arcsData}
@@ -467,10 +467,10 @@ export const AnimatedMap = () => {
                                     const el = document.createElement('div');
                                     el.innerHTML = `
                                         <div style="display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%); pointer-events: none;">
-                                            <div style="color: ${d.color}; font-weight: bold; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; white-space: nowrap; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 6px; border: 1px solid ${d.color}40; margin-bottom: 8px; backdrop-filter: blur(4px);">
+                                            <div style="color: ${d.color}; font-weight: bold; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; white-space: nowrap; background: rgba(0,0,0,0.85); padding: 6px 14px; border-radius: 8px; border: 1px solid ${d.color}60; margin-bottom: 8px; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                                                 ${d.label}
                                             </div>
-                                            <div style="width: 14px; height: 14px; border-radius: 50%; background-color: ${d.color}; box-shadow: 0 0 20px ${d.color}, inset 0 0 5px #fff; border: 2px solid white;"></div>
+                                            <div style="width: 16px; height: 16px; border-radius: 50%; background-color: ${d.color}; box-shadow: 0 0 20px ${d.color}, inset 0 0 5px #fff; border: 2px solid white;"></div>
                                         </div>
                                     `;
                                     return el;
