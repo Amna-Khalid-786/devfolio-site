@@ -1,6 +1,7 @@
 import React from "react";
 import Globe from "react-globe.gl";
 import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
+import { Brain, Code2, Zap, Server } from "lucide-react";
 
 const Container = ({ children, className = "", isActive, ...props }: { children: React.ReactNode, className?: string, isActive?: boolean, [key: string]: any }) => {
     const { scrollYProgress } = useScroll();
@@ -615,10 +616,10 @@ export const ProductsIntro = () => (
 
 export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => void }) => {
     const categories = [
-        { title: "Artificial Intelligence", subtitle: "Advanced Analytics", icon: "🧠", color: "cyan" },
-        { title: "App Development", subtitle: "Platform Solutions", icon: "📱", color: "blue" },
-        { title: "Automation", subtitle: "Operational Efficiency", icon: "⚡", color: "cyan" },
-        { title: "Infrastructure", subtitle: "Lifecycle Management", icon: "🏗️", color: "blue" }
+        { title: "Artificial Intelligence", subtitle: "Advanced Analytics", icon: Brain, color: "cyan" as const },
+        { title: "App Development", subtitle: "Platform Solutions", icon: Code2, color: "blue" as const },
+        { title: "Automation", subtitle: "Operational Efficiency", icon: Zap, color: "cyan" as const },
+        { title: "Infrastructure", subtitle: "Lifecycle Management", icon: Server, color: "blue" as const }
     ];
 
     return (
@@ -635,19 +636,33 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.1 }}
-                        whileHover={{ y: -8, scale: 1.02 }}
+                        whileHover={{ y: -10, scale: 1.02 }}
                         onClick={() => onSelect(i + 1)}
                         className="group relative cursor-pointer flex flex-col h-full"
                     >
-                        <div className={`absolute -inset-1 bg-brand-${cat.color}/20 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300`} />
-                        <div className="relative h-full glass-dark border border-white/5 rounded-[1.5rem] p-6 md:p-8 flex flex-col items-center text-center group-hover:border-brand-cyan/30 transition-all duration-300">
-                            <div className="text-3xl md:text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{cat.icon}</div>
-                            <h3 className="text-lg font-bold mb-1 group-hover:text-brand-cyan transition-colors">{cat.title}</h3>
-                            <p className="text-[10px] md:text-xs text-white/40 uppercase tracking-widest mb-6">{cat.subtitle}</p>
+                        {/* Premium Outer Glow */}
+                        <div className={`absolute -inset-2 bg-brand-${cat.color}/20 rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500`} />
+                        
+                        <div className="relative h-full glass-dark border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col items-center text-center group-hover:border-brand-cyan/40 group-hover:bg-black/80 transition-all duration-500 shadow-2xl overflow-hidden">
+                            {/* Animated Icon Container */}
+                            <div className={`mb-6 w-16 h-16 flex items-center justify-center rounded-2xl bg-brand-${cat.color}/10 text-brand-${cat.color} border border-brand-${cat.color}/20 group-hover:bg-brand-${cat.color} group-hover:text-black transition-all duration-500 shadow-lg group-hover:shadow-brand-${cat.color}/40 relative overflow-hidden shrink-0`}>
+                                <cat.icon size={32} className="relative z-10 group-hover:scale-110 transition-transform duration-500" />
+                                <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+                            </div>
+
+                            <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-brand-cyan transition-colors duration-300">
+                                {cat.title}
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-white/40 uppercase tracking-[0.2em] mb-8 group-hover:text-white/60 transition-colors">
+                                {cat.subtitle}
+                            </p>
                             
-                            <div className="mt-auto px-4 py-1.5 rounded-full border border-white/10 text-[9px] md:text-[10px] font-bold uppercase tracking-widest group-hover:bg-brand-cyan group-hover:text-black transition-all">
+                            <div className="mt-auto px-6 py-2 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] group-hover:bg-brand-cyan group-hover:text-black transition-all duration-300">
                                 Explore Detail
                             </div>
+
+                            {/* Decorative corner element */}
+                            <div className="absolute top-0 right-0 p-6 text-6xl font-bold text-white/[0.02] group-hover:text-brand-cyan/[0.05] transition-colors pointer-events-none">0{i + 1}</div>
                         </div>
                     </motion.div>
                 ))}
