@@ -622,39 +622,66 @@ export const RPMDemo = () => (
             <Heading gradient>Remote Patient Monitoring</Heading>
         </div>
 
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative max-w-5xl mx-auto w-full group"
-        >
-            <a
-                href="https://rpm-demo-eta.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block relative rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition-all duration-700 hover:border-brand-cyan/40 hover:shadow-brand-cyan/20 group/link"
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 max-w-7xl mx-auto w-full px-4 group h-auto">
+            {/* Desktop Dashboard Link - Left (Wider) */}
+            <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full lg:w-[65%] flex flex-col"
             >
-                {/* Glossy Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/10 to-transparent opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 z-10" />
-
-                <img
-                    src="/assets/rpm-img.png"
-                    alt="RPM Demo Dashboard"
-                    className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover/link:scale-[1.02]"
-                />
-
-                {/* Hover Action Button */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/link:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/link:scale-100">
-                    <div className="px-8 py-4 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-3 shadow-2xl">
-                        <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">Launch Live Demo</span>
-                        <ExternalLink size={20} className="text-brand-cyan" />
+                <a
+                    href="https://rpm-demo-eta.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative rounded-[1.5rem] overflow-hidden border border-white/10 shadow-2xl transition-all duration-700 hover:border-brand-blue/40 hover:shadow-brand-blue/20 group/link h-full"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/10 to-transparent opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 z-10" />
+                    <img
+                        src="/assets/rpm-img.png"
+                        alt="RPM Demo Dashboard"
+                        className="w-full h-auto max-h-[45vh] lg:max-h-[50vh] object-cover lg:object-fill transform transition-transform duration-1000 group-hover/link:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/link:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/link:scale-100">
+                        <div className="px-5 py-2.5 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-2.5 shadow-2xl">
+                            <span className="text-white font-bold tracking-[0.2em] uppercase text-[9px]">Dashboard Demo</span>
+                            <ExternalLink size={14} className="text-brand-blue" />
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </motion.div>
 
-            {/* Ambient Backglow */}
-            <div className="absolute -inset-4 bg-brand-cyan/5 blur-3xl rounded-[3rem] -z-10 group-hover:bg-brand-cyan/10 transition-colors duration-500" />
-        </motion.div>
+            {/* Mobile App Link - Right (Narrower) */}
+            <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full lg:w-[30%] flex flex-col"
+            >
+                <a
+                    href="https://proactivecare-rpm.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative overflow-hidden transition-all duration-700 group/app h-full"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/10 to-transparent opacity-0 group-hover/app:opacity-100 transition-opacity duration-500 z-10" />
+                    <img
+                        src="/assets/mobile-app.png"
+                        alt="RPM Mobile App"
+                        className="w-full h-auto max-h-[55vh] lg:max-h-[60vh] object-contain transform transition-transform duration-1000 group-hover/app:scale-[1.02]"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/app:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/app:scale-100">
+                        <div className="px-5 py-2.5 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-2.5 shadow-2xl">
+                            <span className="text-white font-bold tracking-[0.2em] uppercase text-[9px]">Mobile App</span>
+                            <ExternalLink size={14} className="text-brand-cyan" />
+                        </div>
+                    </div>
+                </a>
+            </motion.div>
+
+            {/* Ambient Background Glow */}
+            <div className="absolute -inset-20 bg-brand-cyan/5 blur-[120px] rounded-full -z-10 pointer-events-none opacity-50" />
+        </div>
     </Container>
 );
 
