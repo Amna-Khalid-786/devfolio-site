@@ -8,7 +8,7 @@ import Regulatory from "./components/Regulatory";
 import Contact from "./components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 
-const TOTAL_SLIDES = 22;
+const TOTAL_SLIDES = 23;
 
 // --- Unique transition variants per slide ---
 const slideTransitions = [
@@ -114,7 +114,13 @@ const slideTransitions = [
     animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] } },
     exit: { opacity: 0, y: "-100vh", transition: { duration: 0.6 } },
   },
-  // 17: Care Management
+  // 17: RPM Demo Showcase
+  {
+    initial: { opacity: 0, scale: 0.8, rotateY: -30 },
+    animate: { opacity: 1, scale: 1, rotateY: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
+    exit: { opacity: 0, scale: 1.1, rotateY: 30, transition: { duration: 0.8 } },
+  },
+  // 18: Care Management
   {
     initial: { opacity: 0, x: "-100vw" },
     animate: { opacity: 1, x: 0, transition: { duration: 0.7 } },
@@ -168,6 +174,7 @@ const slideComponents = [
   Content.Cat4Details,
   Regulatory,
   Content.ProductsIntro,
+  Content.RPMDemo,
   Content.CareManagement,
   Content.RemoteCare,
   Content.PreventiveCare,
@@ -210,6 +217,7 @@ const BackgroundMapping = [
   Backgrounds.GridPulseBG, // Cat 4
   Backgrounds.CyberGridBG, // Regulatory
   Backgrounds.AuroraBG, // Products Intro
+  Backgrounds.TechNetworkBG, // RPM Demo Showcase
   Backgrounds.DNAHelixBG,
   Backgrounds.GridPulseBG,
   Backgrounds.GlowingWavesBG,
@@ -233,7 +241,7 @@ export default function App() {
   const getCategoryRange = (index: number) => {
     if (index < 8) return [0, 7];     // Intro
     if (index < 16) return [8, 15];    // Services
-    return [16, 21];                  // Products
+    return [16, 22];                  // Products
   };
 
   const [min, max] = getCategoryRange(currentSlide);

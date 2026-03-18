@@ -1,7 +1,7 @@
 import React from "react";
 import Globe from "react-globe.gl";
 import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
-import { Brain, Code2, Zap, Server, ShieldCheck } from "lucide-react";
+import { Brain, Code2, Zap, Server, ShieldCheck, ExternalLink } from "lucide-react";
 
 const Container = ({ children, className = "", isActive, ...props }: { children: React.ReactNode, className?: string, isActive?: boolean, [key: string]: any }) => {
     const { scrollYProgress } = useScroll();
@@ -614,12 +614,56 @@ export const ProductsIntro = () => (
     </Container>
 );
 
+// 12.5 RPM Demo Showcase
+export const RPMDemo = () => (
+    <Container className="text-center items-center justify-center">
+        <div className="mb-12">
+            <SubHeading>RPM DEMO</SubHeading>
+            <Heading gradient>Remote Patient Monitoring</Heading>
+        </div>
+
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative max-w-5xl mx-auto w-full group"
+        >
+            <a
+                href="https://rpm-demo-eta.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block relative rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition-all duration-700 hover:border-brand-cyan/40 hover:shadow-brand-cyan/20 group/link"
+            >
+                {/* Glossy Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue/10 to-transparent opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 z-10" />
+
+                <img
+                    src="/assets/rpm-img.png"
+                    alt="RPM Demo Dashboard"
+                    className="w-full h-auto object-cover transform transition-transform duration-1000 group-hover/link:scale-[1.02]"
+                />
+
+                {/* Hover Action Button */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/link:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/link:scale-100">
+                    <div className="px-8 py-4 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-3 shadow-2xl">
+                        <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">Launch Live Demo</span>
+                        <ExternalLink size={20} className="text-brand-cyan" />
+                    </div>
+                </div>
+            </a>
+
+            {/* Ambient Backglow */}
+            <div className="absolute -inset-4 bg-brand-cyan/5 blur-3xl rounded-[3rem] -z-10 group-hover:bg-brand-cyan/10 transition-colors duration-500" />
+        </motion.div>
+    </Container>
+);
+
 export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => void }) => {
     const categories = [
         { title: "Artificial Intelligence", subtitle: "Advanced Analytics", icon: Brain, color: "cyan" as const },
         { title: "App Development", subtitle: "Platform Solutions", icon: Code2, color: "blue" as const },
         { title: "Automation", subtitle: "Operational Efficiency", icon: Zap, color: "cyan" as const },
-        { title: "Software HIPAA Compliance", subtitle: "Regulatory Standards", icon: ShieldCheck, color: "blue" as const },
+        { title: "Software Compliance", subtitle: "Regulatory Standards", icon: ShieldCheck, color: "blue" as const },
         { title: "Infrastructure", subtitle: "Lifecycle Management", icon: Server, color: "cyan" as const }
     ];
 
@@ -772,7 +816,7 @@ export const Cat1Details = () => (
 export const Cat5Details = () => (
     <CategoryDetail
         categoryNum="04"
-        title="Software HIPAA Compliance"
+        title="Software Compliance"
         description="This critical group demonstrates your commitment to security, quality, and ongoing reliability."
         items={[
             { title: "Quality Assurance (QA) for Medical Software", desc: "Ensuring software reliability and performance through comprehensive SQA and SDLC management." },
