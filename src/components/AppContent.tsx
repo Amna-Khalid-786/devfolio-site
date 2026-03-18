@@ -289,7 +289,7 @@ export const PakFacility = () => (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-center">
             <div className="order-2 lg:order-1 relative group">
                 <div className="glass-dark rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden aspect-video lg:aspect-square flex items-center justify-center relative">
-                    <img src="/assets/pak-facility.png" alt="Pakistan Facility" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 group-hover:scale-105" />
+                    <img src="/assets/pak-facility.png" alt="Pakistan Facility" className="w-full h-full object-cover object-left-top opacity-80 group-hover:opacity-100 transition-opacity duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                     <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 text-left pointer-events-none">
                         <div className="text-brand-cyan text-3xl md:text-5xl mb-2 lg:mb-4">🇵🇰</div>
@@ -500,7 +500,7 @@ export const AnimatedMap = () => {
                             <img src="/world-map.svg" alt="World Map" className="w-[90%] md:w-[85%] h-auto object-contain opacity-[0.4] invert drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]" />
                         </div>
 
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" preserveAspectRatio="none">
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 1000 1000" preserveAspectRatio="none">
                             <defs>
                                 <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stopColor="#0070f3" stopOpacity={0.2} />
@@ -515,10 +515,10 @@ export const AnimatedMap = () => {
 
                             {/* Multiple animated global connections highlighting the network */}
                             {[
-                                { d: "M 25% 40% Q 50% 10% 70% 45%", duration: 3, delay: 0 },
-                                { d: "M 25% 40% Q 30% 60% 45% 75%", duration: 4, delay: 1 },
-                                { d: "M 70% 45% Q 75% 65% 85% 75%", duration: 3.5, delay: 0.5 },
-                                { d: "M 50% 35% Q 60% 25% 70% 45%", duration: 2.5, delay: 1.5 },
+                                { d: "M 250 400 Q 500 100 700 450", duration: 3, delay: 0 },
+                                { d: "M 250 400 Q 300 600 450 750", duration: 4, delay: 1 },
+                                { d: "M 700 450 Q 750 650 850 750", duration: 3.5, delay: 0.5 },
+                                { d: "M 500 350 Q 600 250 700 450", duration: 2.5, delay: 1.5 },
                             ].map((path, idx) => (
                                 <g key={idx}>
                                     <motion.path
@@ -619,7 +619,7 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
         { title: "Artificial Intelligence", subtitle: "Advanced Analytics", icon: Brain, color: "cyan" as const },
         { title: "App Development", subtitle: "Platform Solutions", icon: Code2, color: "blue" as const },
         { title: "Automation", subtitle: "Operational Efficiency", icon: Zap, color: "cyan" as const },
-        { title: "HIPAA Compliance", subtitle: "Regulatory Standards", icon: ShieldCheck, color: "blue" as const },
+        { title: "Software HIPAA Compliance", subtitle: "Regulatory Standards", icon: ShieldCheck, color: "blue" as const },
         { title: "Infrastructure", subtitle: "Lifecycle Management", icon: Server, color: "cyan" as const }
     ];
 
@@ -678,7 +678,7 @@ export const ServicesCategories = ({ onSelect }: { onSelect: (index: number) => 
     );
 };
 
-export const CategoryDetail = ({ title, items, categoryNum }: { title: string, items: { title: string, desc: string }[], categoryNum: string }) => (
+export const CategoryDetail = ({ title, items, categoryNum, description }: { title: string, items: { title: string, desc: string }[], categoryNum: string, description?: string }) => (
     <Container className="justify-center py-4">
         <div className="flex items-center gap-5 md:gap-8 mb-8 md:mb-10">
             <motion.div
@@ -693,6 +693,15 @@ export const CategoryDetail = ({ title, items, categoryNum }: { title: string, i
                 <Heading gradient className="text-2xl md:text-4xl leading-tight !mb-0">{title}</Heading>
             </div>
         </div>
+        {description && (
+            <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                className="text-white/60 text-sm md:text-base mb-8 max-w-2xl font-light"
+            >
+                {description}
+            </motion.p>
+        )}
         <div className={`grid gap-4 md:gap-5 items-stretch ${items.length <= 3 ? 'grid-cols-1 md:grid-cols-3' : items.length <= 4 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-3 lg:grid-cols-5'}`}>
             {items.map((item, i) => (
                 <motion.div
@@ -763,12 +772,14 @@ export const Cat1Details = () => (
 export const Cat5Details = () => (
     <CategoryDetail
         categoryNum="04"
-        title="HIPAA Compliance & Regulatory Standards"
+        title="Software HIPAA Compliance"
+        description="This critical group demonstrates your commitment to security, quality, and ongoing reliability."
         items={[
-            { title: "PHI Security & Encryption", desc: "Implementing enterprise-grade encryption for Protected Health Information (PHI) both at rest and in transit." },
-            { title: "Access Control & Audit Trails", desc: "Developing granular access controls and comprehensive logging systems to monitor every interaction with sensitive data." },
-            { title: "Business Associate Agreements", desc: "Ensuring all software integrations and third-party services adhere to strict HIPAA BAA requirements." },
-            { title: "Risk Assessment & Mitigation", desc: "Conducting thorough security risk analyses and implementing safeguards to prevent data breaches." }
+            { title: "Quality Assurance (QA) for Medical Software", desc: "Ensuring software reliability and performance through comprehensive SQA and SDLC management." },
+            { title: "IEC 62304 Compliance & Consultation (Medical Device Software)", desc: "Expert guidance on Medical Device Software lifecycle processes to meet international safety standards." },
+            { title: "HIPAA Compliance & Security Implementation", desc: "Implementing enterprise-grade encryption and access controls for Protected Health Information (PHI)." },
+            { title: "ONC Health IT Certification Support", desc: "Strategic assistance in navigating the certification process for health information technology." },
+            { title: "Ongoing Maintenance & Technical Support (IT Support for Medical Software)", desc: "Reliable IT support, bug fixes, security patches, and continuous performance monitoring." }
         ]}
     />
 );

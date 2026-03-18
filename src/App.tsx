@@ -8,7 +8,7 @@ import Regulatory from "./components/Regulatory";
 import Contact from "./components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 
-const TOTAL_SLIDES = 21;
+const TOTAL_SLIDES = 22;
 
 // --- Unique transition variants per slide ---
 const slideTransitions = [
@@ -102,37 +102,43 @@ const slideTransitions = [
     animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
   },
-  // 15: Products Intro
+  // 15: Regulatory (Vault of Trust)
+  {
+    initial: { opacity: 0, scale: 1.2, rotateX: 45 },
+    animate: { opacity: 1, scale: 1, rotateX: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
+    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.6 } },
+  },
+  // 16: Products Intro
   {
     initial: { opacity: 0, y: "100vh" },
     animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] } },
     exit: { opacity: 0, y: "-100vh", transition: { duration: 0.6 } },
   },
-  // 15: Care Management
+  // 17: Care Management
   {
     initial: { opacity: 0, x: "-100vw" },
     animate: { opacity: 1, x: 0, transition: { duration: 0.7 } },
     exit: { opacity: 0, scale: 0.8, transition: { duration: 0.5 } },
   },
-  // 16: Remote Care
+  // 18: Remote Care
   {
     initial: { opacity: 0, rotateY: 90 },
     animate: { opacity: 1, rotateY: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, rotateY: -90, transition: { duration: 0.5 } },
   },
-  // 17: Preventive Care
+  // 19: Preventive Care
   {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1, transition: { duration: 1 } },
     exit: { opacity: 0, scale: 1.05, transition: { duration: 0.6 } },
   },
-  // 18: Medical Assistance
+  // 20: Medical Assistance
   {
     initial: { opacity: 0, x: "100vw" },
     animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, x: "-100vw", transition: { duration: 0.5 } },
   },
-  // 19: Thank You
+  // 21: Thank You
   {
     initial: { opacity: 0, clipPath: "inset(50% 0% 50% 0%)" },
     animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] } },
@@ -160,6 +166,7 @@ const slideComponents = [
   Content.Cat3Details,
   Content.Cat5Details,
   Content.Cat4Details,
+  Regulatory,
   Content.ProductsIntro,
   Content.CareManagement,
   Content.RemoteCare,
@@ -195,12 +202,13 @@ const BackgroundMapping = [
   Backgrounds.GridPulseBG,
   Backgrounds.FloatingCubesBG,
   Backgrounds.AuroraBG, // Services Intro
-  Backgrounds.CyberGridBG, // Categories
+  () => null, // Categories (Medical Solutions)
   Backgrounds.TechNetworkBG, // Cat 1
   Backgrounds.FloatingCubesBG, // Cat 2
   Backgrounds.AuroraBG, // Cat 3
   Backgrounds.DNAHelixBG, // Cat 5
   Backgrounds.GridPulseBG, // Cat 4
+  Backgrounds.CyberGridBG, // Regulatory
   Backgrounds.AuroraBG, // Products Intro
   Backgrounds.DNAHelixBG,
   Backgrounds.GridPulseBG,
@@ -220,19 +228,25 @@ export default function App() {
   const lastScrollTime = useRef(0);
   const SCROLL_COOLDOWN = 1000;
 
-  const isServices = currentSlide >= 8 && currentSlide <= 14;
+  const isServices = currentSlide >= 8 && currentSlide <= 15;
 
   const getCategoryRange = (index: number) => {
     if (index < 8) return [0, 7];     // Intro
-    if (index < 15) return [8, 14];    // Services (9 categories selection + 5 details)
-    return [15, 20];                  // Products
+    if (index < 16) return [8, 15];    // Services
+    return [16, 21];                  // Products
   };
+
+  const [min, max] = getCategoryRange(currentSlide);
+  const sectionSlidesTotal = max - min + 1;
 
   const navigateTo = useCallback(
     (target: number) => {
       if (target === currentSlide || isTransitioning) return;
       const clamped = Math.max(0, Math.min(target, TOTAL_SLIDES - 1));
       if (clamped === currentSlide) return;
+
+      // Explicitly allow cross-section navigation only if it's a jump (e.g. from Navbar)
+      // or if we decide to allow it. For now, we'll keep it simple as navigateTo is low-level.
       setDirection(clamped > currentSlide ? 1 : -1);
       setIsTransitioning(true);
       setCurrentSlide(clamped);
@@ -299,8 +313,10 @@ export default function App() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [goToNext, goToPrev]);
 
-  // Progress Bar Width
-  const progressPercent = (currentSlide / (TOTAL_SLIDES - 1)) * 100;
+  // Section-relative Progress Bar Width
+  const progressPercent = sectionSlidesTotal > 1
+    ? ((currentSlide - min) / (sectionSlidesTotal - 1)) * 100
+    : 100;
 
   // Get the current variant set
   const currentVariants = getDirectionVariants(currentSlide, direction);
@@ -308,8 +324,7 @@ export default function App() {
   // Get current slide component
   const CurrentSlideComponent = slideComponents[currentSlide];
 
-  const [min, max] = getCategoryRange(currentSlide);
-  const categorySlides = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+  const categorySlides = Array.from({ length: sectionSlidesTotal }, (_, i) => min + i);
 
   return (
     <div className="bg-dark-bg selection:bg-brand-blue/30 selection:text-white relative h-screen w-screen overflow-hidden perspective-1000">
@@ -363,8 +378,8 @@ export default function App() {
             exit={isServices ? { opacity: 0, y: -20, x: "-50%" } : { opacity: 0, x: -20, y: "-50%" }}
             onClick={goToPrev}
             className={`fixed z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all cursor-pointer ${isServices
-                ? "left-1/2 top-24"
-                : "left-8 top-1/2"
+              ? "left-1/2 top-24"
+              : "left-8 top-1/2"
               }`}
           >
             {isServices ? <ChevronUp size={32} /> : <ChevronLeft size={32} />}
@@ -381,8 +396,8 @@ export default function App() {
             exit={isServices ? { opacity: 0, y: 20, x: "-50%" } : { opacity: 0, x: 20, y: "-50%" }}
             onClick={goToNext}
             className={`fixed z-50 p-4 rounded-full bg-black/20 hover:bg-black/50 border border-white/10 text-white/50 hover:text-brand-cyan transition-all cursor-pointer ${isServices
-                ? "left-1/2 bottom-20"
-                : "right-8 top-1/2"
+              ? "left-1/2 bottom-20"
+              : "right-8 top-1/2"
               }`}
           >
             {isServices ? <ChevronDown size={32} /> : <ChevronRight size={32} />}
@@ -392,8 +407,8 @@ export default function App() {
 
       {/* Slide Indicators Navigation - Moved to side for services */}
       <div className={`fixed z-50 transition-all duration-700 flex ${isServices
-          ? "right-8 top-1/2 -translate-y-1/2 flex-col gap-4"
-          : "bottom-8 left-1/2 -translate-x-1/2 gap-3"
+        ? "right-8 top-1/2 -translate-y-1/2 flex-col gap-4"
+        : "bottom-8 left-1/2 -translate-x-1/2 gap-3"
         }`}>
         {categorySlides.map((index) => (
           <motion.button
@@ -411,7 +426,7 @@ export default function App() {
         ))}
       </div>
 
-      {/* Slide Number Indicator */}
+      {/* Slide Number Indicator - Relative to Section */}
       <motion.div
         key={currentSlide}
         initial={{ opacity: 0, y: 10 }}
