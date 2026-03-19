@@ -8,7 +8,7 @@ import Regulatory from "./components/Regulatory";
 import Contact from "./components/Contact";
 import { motion, AnimatePresence } from "motion/react";
 
-const TOTAL_SLIDES = 23;
+const TOTAL_SLIDES = 20;
 
 // --- Unique transition variants per slide ---
 const slideTransitions = [
@@ -116,9 +116,9 @@ const slideTransitions = [
   },
   // 17: RPM Demo Showcase
   {
-    initial: { opacity: 0, scale: 0.8, rotateY: -30 },
-    animate: { opacity: 1, scale: 1, rotateY: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
-    exit: { opacity: 0, scale: 1.1, rotateY: 30, transition: { duration: 0.8 } },
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+    exit: { opacity: 0, transition: { duration: 0.3 } },
   },
   // 18: Care Management
   {
@@ -175,10 +175,7 @@ const slideComponents = [
   Regulatory,
   Content.ProductsIntro,
   Content.RPMDemo,
-  Content.CareManagement,
-  Content.RemoteCare,
-  Content.PreventiveCare,
-  Content.MedicalAssistance,
+  Content.Pricing,
   Content.ThankYou
 ];
 
@@ -218,11 +215,8 @@ const BackgroundMapping = [
   Backgrounds.CyberGridBG, // Regulatory
   Backgrounds.AuroraBG, // Products Intro
   Backgrounds.TechNetworkBG, // RPM Demo Showcase
-  Backgrounds.DNAHelixBG,
-  Backgrounds.GridPulseBG,
-  Backgrounds.GlowingWavesBG,
-  Backgrounds.BubblesBG,
-  Backgrounds.AuroraBG,
+  Backgrounds.DNAHelixBG, // Pricing
+  Backgrounds.AuroraBG, // Thank You
 ];
 
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
@@ -241,7 +235,7 @@ export default function App() {
   const getCategoryRange = (index: number) => {
     if (index < 8) return [0, 7];     // Intro
     if (index < 16) return [8, 15];    // Services
-    return [16, 22];                  // Products
+    return [16, 19];                  // Products
   };
 
   const [min, max] = getCategoryRange(currentSlide);

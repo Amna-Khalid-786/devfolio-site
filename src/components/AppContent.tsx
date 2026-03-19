@@ -616,19 +616,19 @@ export const ProductsIntro = () => (
 
 // 12.5 RPM Demo Showcase
 export const RPMDemo = () => (
-    <Container className="text-center items-center justify-center">
-        <div className="mb-12">
+    <Container className="text-center items-center justify-center py-6">
+        <div className="mb-4">
             <SubHeading>RPM DEMO</SubHeading>
             <Heading gradient>Remote Patient Monitoring</Heading>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 max-w-7xl mx-auto w-full px-4 group h-auto">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-8 max-w-7xl mx-auto w-full px-4 group h-auto">
             {/* Desktop Dashboard Link - Left (Wider) */}
             <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full lg:w-[65%] flex flex-col"
+                className="w-full lg:w-[60%] flex flex-col"
             >
                 <a
                     href="https://rpm-demo-eta.vercel.app/"
@@ -640,7 +640,8 @@ export const RPMDemo = () => (
                     <img
                         src="/assets/rpm-img.png"
                         alt="RPM Demo Dashboard"
-                        className="w-full h-auto max-h-[45vh] lg:max-h-[50vh] object-cover lg:object-fill transform transition-transform duration-1000 group-hover/link:scale-[1.02]"
+                        loading="eager"
+                        className="w-full h-auto max-h-[35vh] lg:max-h-[42vh] object-cover lg:object-fill transform transition-transform duration-1000 group-hover/link:scale-[1.02]"
                     />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/link:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/link:scale-100">
                         <div className="px-5 py-2.5 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-2.5 shadow-2xl">
@@ -651,12 +652,12 @@ export const RPMDemo = () => (
                 </a>
             </motion.div>
 
-            {/* Mobile App Link - Right (Narrower) */}
+            {/* Mobile App Link - Right (Narrower but increased) */}
             <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full lg:w-[30%] flex flex-col"
+                className="w-full lg:w-[35%] flex flex-col"
             >
                 <a
                     href="https://proactivecare-rpm.vercel.app/"
@@ -666,9 +667,10 @@ export const RPMDemo = () => (
                 >
                     <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/10 to-transparent opacity-0 group-hover/app:opacity-100 transition-opacity duration-500 z-10" />
                     <img
-                        src="/assets/mobile-app.png"
+                        src="/assets/mobile-img.png"
                         alt="RPM Mobile App"
-                        className="w-full h-auto max-h-[55vh] lg:max-h-[60vh] object-contain transform transition-transform duration-1000 group-hover/app:scale-[1.02]"
+                        loading="eager"
+                        className="w-full h-auto max-h-[40vh] lg:max-h-[55vh] object-contain transform transition-transform duration-1000 group-hover/app:scale-[1.02]"
                     />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/app:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/app:scale-100">
                         <div className="px-5 py-2.5 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-2.5 shadow-2xl">
@@ -1130,21 +1132,101 @@ export const ClientsSlide = () => (
     </Container>
 );
 
-// 17. Thank You
-export const ThankYou = () => (
-    <Container className="items-center text-center p-4">
-        <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-4xl glass-dark p-8 md:p-16 lg:p-24 rounded-[2rem] md:rounded-[4rem] border border-white/10 shadow-[0_0_100px_rgba(0,112,243,0.2)]"
-        >
-            <Heading gradient>THANK YOU</Heading>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/60 font-light leading-relaxed mb-8 md:mb-12">
-                Your comprehensive software solution partner, guiding you from initial conceptualization to the realization of a full scale commercial reality within the dynamic landscape of medical innovation.
+// 13. Pricing
+export const Pricing = () => (
+    <Container className="text-center items-center py-4">
+        <div className="w-full max-w-7xl mx-auto">
+            <SubHeading>PRICING</SubHeading>
+            <Heading gradient>Flexible Software Solutions</Heading>
+            <p className="max-w-3xl mx-auto text-sm md:text-base text-white/50 font-light leading-relaxed mb-6 md:mb-8">
+                Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
             </p>
-            <div className="text-brand-cyan font-mono tracking-widest text-xs md:text-sm">
-                www.rmt-usa.com
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-6xl mx-auto">
+                {[
+                    {
+                        tier: "Startup / Pilot",
+                        price: "Custom",
+                        desc: "Perfect for initial product conceptualization and early-stage prototypes.",
+                        features: ["Core Architecture Design", "Proof of Concept Development", "Regulatory Roadmap", "Standard Support"]
+                    },
+                    {
+                        tier: "Enterprise",
+                        price: "Flexible",
+                        desc: "Comprehensive solutions for growing medical facilities and technology partners.",
+                        features: ["Full-Scale Development", "AI & ML Integration", "Regulatory Compliance (FDA/CE)", "Priority 24/7 Support"],
+                        highlight: true
+                    },
+                    {
+                        tier: "Long-term Support",
+                        price: "Retainer",
+                        desc: "Continuity and optimization for established healthcare ecosystems.",
+                        features: ["Sustaining Engineering", "Quality Assurance & QA", "Security Updates", "Lifecycle Management"]
+                    }
+                ].map((plan, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className={`relative p-[1px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden ${plan.highlight ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_40px_rgba(0,112,243,0.3)]' : 'bg-white/10'}`}
+                    >
+                        <div className="bg-[#080808] rounded-[calc(1.5rem-1px)] md:rounded-[calc(2rem-1px)] p-5 md:p-8 h-full flex flex-col items-center">
+                            <h3 className={`text-base md:text-lg font-bold mb-1 ${plan.highlight ? 'text-brand-cyan' : 'text-white'}`}>{plan.tier}</h3>
+                            <div className="flex items-baseline gap-1 mb-3 md:mb-4">
+                                <span className="text-2xl md:text-3xl font-black text-white">{plan.price}</span>
+                            </div>
+                            <p className="text-white/40 text-[10px] md:text-xs mb-4 md:mb-6 leading-relaxed">{plan.desc}</p>
+                            
+                            <div className="w-full space-y-2 md:space-y-3 mb-6 md:mb-8">
+                                {plan.features.map((feature, idx) => (
+                                    <div key={idx} className="flex items-center gap-2 text-left">
+                                        <div className={`w-1 h-1 rounded-full shrink-0 ${plan.highlight ? 'bg-brand-cyan' : 'bg-white/20'}`} />
+                                        <span className="text-[10px] md:text-xs text-white/60">{feature}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[9px] md:text-[10px] transition-all duration-300 ${plan.highlight ? 'bg-brand-cyan text-black hover:bg-white' : 'bg-white/10 text-white hover:bg-white/20 border border-white/5'}`}>
+                                Connect With Sales
+                            </button>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
+        </div>
+    </Container>
+);
+
+// Thank You Slide
+export const ThankYou = () => (
+    <Container className="text-center items-center justify-center p-6 md:p-12">
+        <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="glass-dark p-6 md:p-10 lg:p-12 rounded-[2rem] md:rounded-[3rem] border border-white/10 max-w-2xl w-full relative overflow-hidden"
+        >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-50" />
+            
+            <Heading gradient>THANK YOU</Heading>
+            
+            <div className="h-px w-24 bg-brand-cyan/30 mx-auto mb-6" />
+            
+            <p className="text-base md:text-lg text-white/60 font-light leading-relaxed mb-8 max-w-xl mx-auto">
+                Your comprehensive software solution partner, guiding you from 
+                initial conceptualization to the realization of a full scale 
+                commercial reality.
+            </p>
+
+            <motion.a
+                href="https://www.rmt-usa.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, color: '#00dfd8' }}
+                className="text-sm md:text-base font-mono tracking-[0.3em] text-white/40 uppercase cursor-pointer hover:shadow-[0_0_20px_rgba(0,223,216,0.2)] px-6 py-2 rounded-full border border-white/5"
+            >
+                www.rmt-usa.com
+            </motion.a>
         </motion.div>
     </Container>
 );

@@ -62,13 +62,10 @@ export default function Hero({ isActive }: { isActive?: boolean }) {
           <motion.div
             variants={scaleIn}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-dark text-brand-cyan text-[10px] font-bold tracking-[0.3em] uppercase mb-8"
+            className="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-dark text-brand-cyan text-[10px] font-bold tracking-[0.3em] uppercase mb-8 border border-white/5 shadow-[0_0_20px_rgba(0,112,243,0.1)]"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan" />
-            </span>
-            Software Division
+            <img src="/assets/rmt-logo.png" alt="RMT" className="h-4 w-auto object-contain" />
+            Software Dept
           </motion.div>
 
           {/* Title with clip-path reveal */}
