@@ -1169,9 +1169,7 @@ export const Pricing = () => {
                 "Clinic Integration",
                 "Practice Dashboard",
                 "Staff Access Controls",
-                "Unlimited Patients & Practices",
                 "AI Extensions",
-                "Advanced RPM project tools",
                 "Custom Integration Options"
             ]
         }
@@ -1201,7 +1199,7 @@ export const Pricing = () => {
                                 className={`relative p-[1px] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden transition-all duration-500 flex flex-col ${isHighlighted ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_40px_rgba(0,112,243,0.2)] scale-[1.01]' : 'bg-white/10 border border-white/5'}`}
                             >
                                 <div className="bg-[#080808]/95 backdrop-blur-sm rounded-[calc(2rem-1px)] md:rounded-[calc(2.5rem-1px)] px-5 py-5 md:px-6 md:py-6 lg:px-8 lg:py-7 h-full flex flex-col items-center">
-                                    <h3 className={`text-sm md:text-base lg:text-lg font-bold mb-1 transition-colors duration-300 ${isHighlighted ? 'text-brand-cyan' : 'text-white'} whitespace-nowrap`}>{plan.tier}</h3>
+                                    <h3 className={`text-sm md:text-base lg:text-lg font-bold tracking-tighter mb-1 transition-colors duration-300 ${isHighlighted ? 'text-brand-cyan' : 'text-white'} whitespace-nowrap`}>{plan.tier}</h3>
                                     <div className="flex items-baseline gap-1 mb-2">
                                         <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white">{plan.price}</span>
                                     </div>
@@ -1216,9 +1214,9 @@ export const Pricing = () => {
                                         ))}
                                     </div>
 
-                                    <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[10px] md:text-xs transition-all duration-300 ${isHighlighted ? 'bg-brand-cyan text-black hover:bg-white hover:scale-[1.02] shadow-[0_0_15px_rgba(0,223,216,0.2)]' : 'bg-white/5 text-white/50 border border-white/10 hover:border-white/20'}`}>
+                                    {/* <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[10px] md:text-xs transition-all duration-300 ${isHighlighted ? 'bg-brand-cyan text-black hover:bg-white hover:scale-[1.02] shadow-[0_0_15px_rgba(0,223,216,0.2)]' : 'bg-white/5 text-white/50 border border-white/10 hover:border-white/20'}`}>
                                         Choose Plan
-                                    </button>
+                                    </button> */}
                                 </div>
                             </motion.div>
                         );
