@@ -90,13 +90,13 @@ const slideTransitions = [
     animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
   },
-  // 13: Cat 4 Detail
+  // 13: Cat 5 Detail
   {
     initial: { opacity: 0, y: 100 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
     exit: { opacity: 0, y: -100, transition: { duration: 0.5 } },
   },
-  // 14: Cat 5 Detail
+  // 14: Cat 4 Detail
   {
     initial: { opacity: 0, y: 100 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.8 } },
@@ -120,31 +120,13 @@ const slideTransitions = [
     animate: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
     exit: { opacity: 0, transition: { duration: 0.3 } },
   },
-  // 18: Care Management
+  // 18: Pricing
   {
-    initial: { opacity: 0, x: "-100vw" },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.7 } },
-    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.5 } },
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.33, 1, 0.68, 1] as [number, number, number, number] } },
+    exit: { opacity: 0, x: 100, transition: { duration: 0.5 } },
   },
-  // 18: Remote Care
-  {
-    initial: { opacity: 0, rotateY: 90 },
-    animate: { opacity: 1, rotateY: 0, transition: { duration: 0.8 } },
-    exit: { opacity: 0, rotateY: -90, transition: { duration: 0.5 } },
-  },
-  // 19: Preventive Care
-  {
-    initial: { opacity: 0, scale: 0.95 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 1 } },
-    exit: { opacity: 0, scale: 1.05, transition: { duration: 0.6 } },
-  },
-  // 20: Medical Assistance
-  {
-    initial: { opacity: 0, x: "100vw" },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.8 } },
-    exit: { opacity: 0, x: "-100vw", transition: { duration: 0.5 } },
-  },
-  // 21: Thank You
+  // 19: Thank You
   {
     initial: { opacity: 0, clipPath: "inset(50% 0% 50% 0%)" },
     animate: { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", transition: { duration: 1, ease: [0.77, 0, 0.175, 1] as [number, number, number, number] } },

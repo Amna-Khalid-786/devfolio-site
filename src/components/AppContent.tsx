@@ -1178,44 +1178,45 @@ export const Pricing = () => {
     ];
 
     return (
-        <Container className="text-center items-center py-4 md:py-6">
-            <div className="w-full max-w-[1600px] mx-auto px-4">
-                <SubHeading className="text-xs md:text-sm mb-2">PRICING</SubHeading>
-                <Heading gradient className="text-4xl md:text-6xl mb-3">Flexible Software Solutions</Heading>
-                <p className="max-w-3xl mx-auto text-base md:text-xl text-white/50 font-light leading-relaxed mb-8 md:mb-10">
-                    Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
-                </p>
+        <Container className="text-center items-center pt-16 pb-8 md:pt-20 md:pb-10 !min-h-0 min-h-screen relative overflow-hidden">
+            <div className="w-full max-w-[1400px] mx-auto px-4 flex flex-col items-center">
+                <div className="mb-4 md:mb-6 text-center">
+                    <Heading gradient className="text-2xl md:text-3xl lg:text-5xl !mb-2">Flexible Software Solutions</Heading>
+                    <p className="max-w-2xl mx-auto text-xs md:text-sm lg:text-base text-white/50 font-light leading-relaxed px-4">
+                        Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
+                    </p>
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 w-full max-w-[1600px] mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 lg:gap-6 w-full items-stretch max-md:max-w-md max-md:mx-auto">
                     {plans.map((plan, i) => {
                         const isHighlighted = hoveredIndex === i;
                         return (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.1 }}
                                 onMouseEnter={() => setHoveredIndex(i)}
                                 onMouseLeave={() => setHoveredIndex(null)}
-                                className={`relative p-[1px] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden transition-all duration-500 ${isHighlighted ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_60px_rgba(0,112,243,0.3)] scale-[1.02]' : 'bg-white/10'}`}
+                                className={`relative p-[1px] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden transition-all duration-500 flex flex-col ${isHighlighted ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_40px_rgba(0,112,243,0.2)] scale-[1.01]' : 'bg-white/10 border border-white/5'}`}
                             >
-                                <div className="bg-[#080808] rounded-[calc(2.5rem-1px)] md:rounded-[calc(3rem-1px)] px-6 py-6 md:px-10 md:py-8 h-full flex flex-col items-center">
-                                    <h3 className={`text-xl md:text-2xl font-bold mb-1 transition-colors duration-300 ${isHighlighted ? 'text-brand-cyan' : 'text-white'} whitespace-nowrap`}>{plan.tier}</h3>
-                                    <div className="flex items-baseline gap-1 mb-4 md:mb-5">
-                                        <span className="text-4xl md:text-5xl font-black text-white whitespace-nowrap">{plan.price}</span>
+                                <div className="bg-[#080808]/95 backdrop-blur-sm rounded-[calc(2rem-1px)] md:rounded-[calc(2.5rem-1px)] px-5 py-5 md:px-6 md:py-6 lg:px-8 lg:py-7 h-full flex flex-col items-center">
+                                    <h3 className={`text-sm md:text-base lg:text-lg font-bold mb-1 transition-colors duration-300 ${isHighlighted ? 'text-brand-cyan' : 'text-white'} whitespace-nowrap`}>{plan.tier}</h3>
+                                    <div className="flex items-baseline gap-1 mb-2">
+                                        <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white">{plan.price}</span>
                                     </div>
-                                    <p className="text-white/40 text-sm md:text-base mb-4 md:mb-6 leading-relaxed text-center">{plan.desc}</p>
+                                    <p className="text-white/40 text-[10px] md:text-xs lg:text-sm mb-4 leading-tight text-center h-8 md:h-10 flex items-center justify-center italic">{plan.desc}</p>
 
-                                    <div className="w-full space-y-2.5 md:space-y-3.5 mb-6 md:mb-8">
+                                    <div className="w-full space-y-1 md:space-y-1.5 lg:space-y-2 mb-6 border-t border-white/5 pt-4">
                                         {plan.features.map((feature, idx) => (
-                                            <div key={idx} className="flex items-start gap-4 text-left">
-                                                <div className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${isHighlighted ? 'bg-brand-cyan' : 'bg-brand-cyan/40'}`} />
-                                                <span className="text-sm md:text-base text-white/70 leading-snug">{feature}</span>
+                                            <div key={idx} className="flex items-start gap-2 md:gap-3 text-left">
+                                                <div className={`mt-1.5 w-1 h-1 rounded-full shrink-0 transition-colors duration-300 ${isHighlighted ? 'bg-brand-cyan' : 'bg-brand-cyan/40'}`} />
+                                                <span className="text-[10px] md:text-[11px] lg:text-sm text-white/70 leading-tight">{feature}</span>
                                             </div>
                                         ))}
                                     </div>
 
-                                    <button className={`mt-auto w-full py-3 md:py-4 rounded-2xl font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 ${isHighlighted ? 'bg-brand-cyan text-black hover:bg-white hover:scale-[1.02] shadow-[0_0_20px_rgba(0,223,216,0.3)]' : 'bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-white/20'}`}>
+                                    <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[10px] md:text-xs transition-all duration-300 ${isHighlighted ? 'bg-brand-cyan text-black hover:bg-white hover:scale-[1.02] shadow-[0_0_15px_rgba(0,223,216,0.2)]' : 'bg-white/5 text-white/50 border border-white/10 hover:border-white/20'}`}>
                                         Choose Plan
                                     </button>
                                 </div>
@@ -1224,6 +1225,8 @@ export const Pricing = () => {
                     })}
                 </div>
             </div>
+            {/* Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-cyan/5 blur-[120px] -z-10 pointer-events-none opacity-50" />
         </Container>
     );
 };
