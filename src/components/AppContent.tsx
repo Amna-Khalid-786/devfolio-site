@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Globe from "react-globe.gl";
 import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
 import { Brain, Code2, Zap, Server, ShieldCheck, ExternalLink } from "lucide-react";
@@ -1133,70 +1133,100 @@ export const ClientsSlide = () => (
 );
 
 // 13. Pricing
-export const Pricing = () => (
-    <Container className="text-center items-center py-4">
-        <div className="w-full max-w-7xl mx-auto">
-            <SubHeading>PRICING</SubHeading>
-            <Heading gradient>Flexible Software Solutions</Heading>
-            <p className="max-w-3xl mx-auto text-sm md:text-base text-white/50 font-light leading-relaxed mb-6 md:mb-8">
-                Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
-            </p>
+export const Pricing = () => {
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-6xl mx-auto">
-                {[
-                    {
-                        tier: "Startup / Pilot",
-                        price: "Custom",
-                        desc: "Perfect for initial product conceptualization and early-stage prototypes.",
-                        features: ["Core Architecture Design", "Proof of Concept Development", "Regulatory Roadmap", "Standard Support"]
-                    },
-                    {
-                        tier: "Enterprise",
-                        price: "Flexible",
-                        desc: "Comprehensive solutions for growing medical facilities and technology partners.",
-                        features: ["Full-Scale Development", "AI & ML Integration", "Regulatory Compliance (FDA/CE)", "Priority 24/7 Support"],
-                        highlight: true
-                    },
-                    {
-                        tier: "Long-term Support",
-                        price: "Retainer",
-                        desc: "Continuity and optimization for established healthcare ecosystems.",
-                        features: ["Sustaining Engineering", "Quality Assurance & QA", "Security Updates", "Lifecycle Management"]
-                    }
-                ].map((plan, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className={`relative p-[1px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden ${plan.highlight ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_40px_rgba(0,112,243,0.3)]' : 'bg-white/10'}`}
-                    >
-                        <div className="bg-[#080808] rounded-[calc(1.5rem-1px)] md:rounded-[calc(2rem-1px)] p-5 md:p-8 h-full flex flex-col items-center">
-                            <h3 className={`text-base md:text-lg font-bold mb-1 ${plan.highlight ? 'text-brand-cyan' : 'text-white'}`}>{plan.tier}</h3>
-                            <div className="flex items-baseline gap-1 mb-3 md:mb-4">
-                                <span className="text-2xl md:text-3xl font-black text-white">{plan.price}</span>
-                            </div>
-                            <p className="text-white/40 text-[10px] md:text-xs mb-4 md:mb-6 leading-relaxed">{plan.desc}</p>
-                            
-                            <div className="w-full space-y-2 md:space-y-3 mb-6 md:mb-8">
-                                {plan.features.map((feature, idx) => (
-                                    <div key={idx} className="flex items-center gap-2 text-left">
-                                        <div className={`w-1 h-1 rounded-full shrink-0 ${plan.highlight ? 'bg-brand-cyan' : 'bg-white/20'}`} />
-                                        <span className="text-[10px] md:text-xs text-white/60">{feature}</span>
+    const plans = [
+        {
+            tier: "Basic Plan / Patient",
+            price: "$25 - $30",
+            desc: "Essential remote monitoring for individual patients.",
+            features: ["Patient-Doctor Chat", "Adjustable Clinical Values", "High/Low Alert System", "Dual Notifications"]
+        },
+        {
+            tier: "Business Plan / Clinic",
+            price: "$500 - $700",
+            desc: "Comprehensive solutions for clinics to manage their practice.",
+            features: [
+                "Patient-Doctor Chat",
+                "Adjustable Clinical Values",
+                "High/Low Alert System",
+                "Dual Notifications",
+                "Clinic Integration",
+                "Practice Dashboard",
+                "Staff Access Controls"
+            ]
+        },
+        {
+            tier: "Premium Plan / Customized",
+            price: "$1k - $2k",
+            desc: "Unlimited scale for large organizations and RPM projects.",
+            features: [
+                "Patient-Doctor Chat",
+                "Adjustable Clinical Values",
+                "High/Low Alert System",
+                "Dual Notifications",
+                "Clinic Integration",
+                "Practice Dashboard",
+                "Staff Access Controls",
+                "Unlimited Patients & Practices",
+                "AI Extensions",
+                "Advanced RPM project tools",
+                "Custom Integration Options"
+            ]
+        }
+    ];
+
+    return (
+        <Container className="text-center items-center py-4 md:py-6">
+            <div className="w-full max-w-[1600px] mx-auto px-4">
+                <SubHeading className="text-xs md:text-sm mb-2">PRICING</SubHeading>
+                <Heading gradient className="text-4xl md:text-6xl mb-3">Flexible Software Solutions</Heading>
+                <p className="max-w-3xl mx-auto text-base md:text-xl text-white/50 font-light leading-relaxed mb-8 md:mb-10">
+                    Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 w-full max-w-[1600px] mx-auto">
+                    {plans.map((plan, i) => {
+                        const isHighlighted = hoveredIndex === i;
+                        return (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                onMouseEnter={() => setHoveredIndex(i)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                                className={`relative p-[1px] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden transition-all duration-500 ${isHighlighted ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_60px_rgba(0,112,243,0.3)] scale-[1.02]' : 'bg-white/10'}`}
+                            >
+                                <div className="bg-[#080808] rounded-[calc(2.5rem-1px)] md:rounded-[calc(3rem-1px)] px-6 py-6 md:px-10 md:py-8 h-full flex flex-col items-center">
+                                    <h3 className={`text-xl md:text-2xl font-bold mb-1 transition-colors duration-300 ${isHighlighted ? 'text-brand-cyan' : 'text-white'} whitespace-nowrap`}>{plan.tier}</h3>
+                                    <div className="flex items-baseline gap-1 mb-4 md:mb-5">
+                                        <span className="text-4xl md:text-5xl font-black text-white whitespace-nowrap">{plan.price}</span>
                                     </div>
-                                ))}
-                            </div>
+                                    <p className="text-white/40 text-sm md:text-base mb-4 md:mb-6 leading-relaxed text-center">{plan.desc}</p>
 
-                            <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[9px] md:text-[10px] transition-all duration-300 ${plan.highlight ? 'bg-brand-cyan text-black hover:bg-white' : 'bg-white/10 text-white hover:bg-white/20 border border-white/5'}`}>
-                                Connect With Sales
-                            </button>
-                        </div>
-                    </motion.div>
-                ))}
+                                    <div className="w-full space-y-2.5 md:space-y-3.5 mb-6 md:mb-8">
+                                        {plan.features.map((feature, idx) => (
+                                            <div key={idx} className="flex items-start gap-4 text-left">
+                                                <div className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${isHighlighted ? 'bg-brand-cyan' : 'bg-brand-cyan/40'}`} />
+                                                <span className="text-sm md:text-base text-white/70 leading-snug">{feature}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <button className={`mt-auto w-full py-3 md:py-4 rounded-2xl font-bold tracking-widest uppercase text-xs md:text-sm transition-all duration-300 ${isHighlighted ? 'bg-brand-cyan text-black hover:bg-white hover:scale-[1.02] shadow-[0_0_20px_rgba(0,223,216,0.3)]' : 'bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-white/20'}`}>
+                                        Choose Plan
+                                    </button>
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
-    </Container>
-);
+        </Container>
+    );
+};
 
 // Thank You Slide
 export const ThankYou = () => (
@@ -1207,14 +1237,14 @@ export const ThankYou = () => (
             className="glass-dark p-6 md:p-10 lg:p-12 rounded-[2rem] md:rounded-[3rem] border border-white/10 max-w-2xl w-full relative overflow-hidden"
         >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-50" />
-            
+
             <Heading gradient>THANK YOU</Heading>
-            
+
             <div className="h-px w-24 bg-brand-cyan/30 mx-auto mb-6" />
-            
+
             <p className="text-base md:text-lg text-white/60 font-light leading-relaxed mb-8 max-w-xl mx-auto">
-                Your comprehensive software solution partner, guiding you from 
-                initial conceptualization to the realization of a full scale 
+                Your comprehensive software solution partner, guiding you from
+                initial conceptualization to the realization of a full scale
                 commercial reality.
             </p>
 
