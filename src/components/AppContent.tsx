@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Globe from "react-globe.gl";
 import { motion, useScroll, useSpring, AnimatePresence } from "motion/react";
 import { Brain, Code2, Zap, Server, ShieldCheck, ExternalLink } from "lucide-react";
@@ -663,16 +663,15 @@ export const RPMDemo = () => (
                     href="https://proactivecare-rpm.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block relative overflow-hidden transition-all duration-700 group/app h-full"
+                    className="block relative transition-all duration-700 group/app h-full"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-cyan/10 to-transparent opacity-0 group-hover/app:opacity-100 transition-opacity duration-500 z-10" />
                     <img
                         src="/assets/mobile-img.png"
                         alt="RPM Mobile App"
                         loading="eager"
                         className="w-full h-auto max-h-[40vh] lg:max-h-[55vh] object-contain transform transition-transform duration-1000 group-hover/app:scale-[1.02]"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/app:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/app:scale-100">
+                    <div className="absolute inset-[20%] inset-x-[25%] flex items-center justify-center opacity-0 group-hover/app:opacity-100 transition-all duration-500 z-20 scale-90 group-hover/app:scale-100">
                         <div className="px-5 py-2.5 bg-black/60 backdrop-blur-xl border border-white/20 rounded-full flex items-center gap-2.5 shadow-2xl">
                             <span className="text-white font-bold tracking-[0.2em] uppercase text-[9px]">Mobile App</span>
                             <ExternalLink size={14} className="text-brand-cyan" />
@@ -1133,70 +1132,99 @@ export const ClientsSlide = () => (
 );
 
 // 13. Pricing
-export const Pricing = () => (
-    <Container className="text-center items-center py-4">
-        <div className="w-full max-w-7xl mx-auto">
-            <SubHeading>PRICING</SubHeading>
-            <Heading gradient>Flexible Software Solutions</Heading>
-            <p className="max-w-3xl mx-auto text-sm md:text-base text-white/50 font-light leading-relaxed mb-6 md:mb-8">
-                Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
-            </p>
+export const Pricing = () => {
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-6xl mx-auto">
-                {[
-                    {
-                        tier: "Startup / Pilot",
-                        price: "Custom",
-                        desc: "Perfect for initial product conceptualization and early-stage prototypes.",
-                        features: ["Core Architecture Design", "Proof of Concept Development", "Regulatory Roadmap", "Standard Support"]
-                    },
-                    {
-                        tier: "Enterprise",
-                        price: "Flexible",
-                        desc: "Comprehensive solutions for growing medical facilities and technology partners.",
-                        features: ["Full-Scale Development", "AI & ML Integration", "Regulatory Compliance (FDA/CE)", "Priority 24/7 Support"],
-                        highlight: true
-                    },
-                    {
-                        tier: "Long-term Support",
-                        price: "Retainer",
-                        desc: "Continuity and optimization for established healthcare ecosystems.",
-                        features: ["Sustaining Engineering", "Quality Assurance & QA", "Security Updates", "Lifecycle Management"]
-                    }
-                ].map((plan, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className={`relative p-[1px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden ${plan.highlight ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_40px_rgba(0,112,243,0.3)]' : 'bg-white/10'}`}
-                    >
-                        <div className="bg-[#080808] rounded-[calc(1.5rem-1px)] md:rounded-[calc(2rem-1px)] p-5 md:p-8 h-full flex flex-col items-center">
-                            <h3 className={`text-base md:text-lg font-bold mb-1 ${plan.highlight ? 'text-brand-cyan' : 'text-white'}`}>{plan.tier}</h3>
-                            <div className="flex items-baseline gap-1 mb-3 md:mb-4">
-                                <span className="text-2xl md:text-3xl font-black text-white">{plan.price}</span>
-                            </div>
-                            <p className="text-white/40 text-[10px] md:text-xs mb-4 md:mb-6 leading-relaxed">{plan.desc}</p>
-                            
-                            <div className="w-full space-y-2 md:space-y-3 mb-6 md:mb-8">
-                                {plan.features.map((feature, idx) => (
-                                    <div key={idx} className="flex items-center gap-2 text-left">
-                                        <div className={`w-1 h-1 rounded-full shrink-0 ${plan.highlight ? 'bg-brand-cyan' : 'bg-white/20'}`} />
-                                        <span className="text-[10px] md:text-xs text-white/60">{feature}</span>
+    const plans = [
+        {
+            tier: "Basic Plan / Patient",
+            price: "$25 - $30",
+            desc: "Essential remote monitoring for individual patients.",
+            features: ["Per Patient-Doctor Chat", "Adjustable Clinical Values", "High/Low Alert System", "Dual Notifications"]
+        },
+        {
+            tier: "Business Plan / Clinic",
+            price: "$500 - $700",
+            desc: "Comprehensive solutions for clinics to manage their practice.",
+            features: [
+                "Unlimited Patient-Doctor Chat",
+                "Adjustable Clinical Values",
+                "High/Low Alert System",
+                "Dual Notifications",
+                "Clinic Integration",
+                "Practice Dashboard",
+            ]
+        },
+        {
+            tier: "Premium Plan / Customized",
+            price: "$1k - $2k",
+            desc: "For hospitals and large scale organizations.",
+            features: [
+                "Unlimited Patient-Doctor Chat",
+                "Adjustable Clinical Values",
+                "High/Low Alert System",
+                "Dual Notifications",
+                "Clinic Integration",
+                "Practice Dashboard",
+                "AI Extensions",
+                "Custom Integration Options"
+            ]
+        }
+    ];
+
+    return (
+        <Container className="text-center items-center pt-16 pb-8 md:pt-20 md:pb-10 !min-h-0 min-h-screen relative overflow-hidden">
+            <div className="w-full max-w-[1400px] mx-auto px-4 flex flex-col items-center">
+                <div className="mb-4 md:mb-6 text-center">
+                    <Heading gradient className="text-2xl md:text-3xl lg:text-5xl !mb-2">Subscription Models</Heading>
+                    <p className="max-w-2xl mx-auto text-xs md:text-sm lg:text-base text-white/50 font-light leading-relaxed px-4">
+                        Choose the perfect plan for your healthcare innovation journey, tailored to scale with your institution's needs.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 lg:gap-6 w-full items-stretch max-md:max-w-md max-md:mx-auto">
+                    {plans.map((plan, i) => {
+                        const isHighlighted = hoveredIndex === i;
+                        return (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                onMouseEnter={() => setHoveredIndex(i)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                                className={`relative p-[1px] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden transition-all duration-500 flex flex-col ${isHighlighted ? 'bg-gradient-to-b from-brand-cyan/50 to-brand-blue/50 shadow-[0_0_40px_rgba(0,112,243,0.2)] scale-[1.01]' : 'bg-white/10 border border-white/5'}`}
+                            >
+                                <div className="bg-[#080808]/95 backdrop-blur-sm rounded-[calc(2rem-1px)] md:rounded-[calc(2.5rem-1px)] px-5 py-5 md:px-6 md:py-6 lg:px-8 lg:py-7 h-full flex flex-col items-center">
+                                    <h3 className={`text-sm md:text-base lg:text-lg font-bold tracking-tighter mb-1 transition-colors duration-300 ${isHighlighted ? 'text-brand-cyan' : 'text-white'} whitespace-nowrap`}>{plan.tier}</h3>
+                                    <div className="flex items-baseline gap-1 mb-2">
+                                        <span className="text-2xl md:text-3xl lg:text-5xl font-black text-white">{plan.price}</span>
                                     </div>
-                                ))}
-                            </div>
+                                    <p className="text-white/40 text-[10px] md:text-xs lg:text-sm mb-4 leading-tight text-center h-8 md:h-10 flex items-center justify-center italic">{plan.desc}</p>
 
-                            <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[9px] md:text-[10px] transition-all duration-300 ${plan.highlight ? 'bg-brand-cyan text-black hover:bg-white' : 'bg-white/10 text-white hover:bg-white/20 border border-white/5'}`}>
-                                Connect With Sales
-                            </button>
-                        </div>
-                    </motion.div>
-                ))}
+                                    <div className="w-full space-y-1 md:space-y-1.5 lg:space-y-2 mb-6 border-t border-white/5 pt-4">
+                                        {plan.features.map((feature, idx) => (
+                                            <div key={idx} className="flex items-start gap-2 md:gap-3 text-left">
+                                                <div className={`mt-1.5 w-1 h-1 rounded-full shrink-0 transition-colors duration-300 ${isHighlighted ? 'bg-brand-cyan' : 'bg-brand-cyan/40'}`} />
+                                                <span className="text-[10px] md:text-[11px] lg:text-sm text-white/70 leading-tight">{feature}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* <button className={`mt-auto w-full py-2.5 md:py-3 rounded-xl font-bold tracking-widest uppercase text-[10px] md:text-xs transition-all duration-300 ${isHighlighted ? 'bg-brand-cyan text-black hover:bg-white hover:scale-[1.02] shadow-[0_0_15px_rgba(0,223,216,0.2)]' : 'bg-white/5 text-white/50 border border-white/10 hover:border-white/20'}`}>
+                                        Choose Plan
+                                    </button> */}
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
-    </Container>
-);
+            {/* Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-cyan/5 blur-[120px] -z-10 pointer-events-none opacity-50" />
+        </Container>
+    );
+};
 
 // Thank You Slide
 export const ThankYou = () => (
@@ -1207,14 +1235,14 @@ export const ThankYou = () => (
             className="glass-dark p-6 md:p-10 lg:p-12 rounded-[2rem] md:rounded-[3rem] border border-white/10 max-w-2xl w-full relative overflow-hidden"
         >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-50" />
-            
+
             <Heading gradient>THANK YOU</Heading>
-            
+
             <div className="h-px w-24 bg-brand-cyan/30 mx-auto mb-6" />
-            
+
             <p className="text-base md:text-lg text-white/60 font-light leading-relaxed mb-8 max-w-xl mx-auto">
-                Your comprehensive software solution partner, guiding you from 
-                initial conceptualization to the realization of a full scale 
+                Your comprehensive software solution partner, guiding you from
+                initial conceptualization to the realization of a full scale
                 commercial reality.
             </p>
 
