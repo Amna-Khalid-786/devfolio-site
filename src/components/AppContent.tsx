@@ -666,7 +666,7 @@ export const RPMDemo = () => (
                     className="block relative transition-all duration-700 group/app h-full"
                 >
                     <img
-                        src="/assets/mobile-img.png"
+                        src="/assets/mobile-app.png"
                         alt="RPM Mobile App"
                         loading="eager"
                         className="w-full h-auto max-h-[40vh] lg:max-h-[55vh] object-contain transform transition-transform duration-1000 group-hover/app:scale-[1.02]"
